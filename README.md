@@ -1,21 +1,10 @@
-```
-  ██████╗  █████╗ ███████╗███████╗
-  ██╔══██╗██╔══██╗██╔════╝██╔════╝
-  ██████╔╝███████║███████╗█████╗
-  ██╔══██╗██╔══██║╚════██║██╔══╝
-  ██████╔╝██║  ██║███████║███████╗
-  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
-
-  Builder's Automated State Engine  ·  v2.3.0
-  Workspace orchestration for Claude Code
-
-  ✦ Data Surfaces    ✦ Drift Detection    ✦ Auto-Grooming
-  ✦ PAUL Satellites  ✦ MCP Integration    ✦ Session Hooks
-```
+<div align="center">
+  <img src="terminal.svg" alt="BASE terminal" width="740"/>
+</div>
 
 <div align="center">
 
-[![npm](https://img.shields.io/npm/v/base-framework?color=00d8ff&label=npm&style=flat-square)](https://www.npmjs.com/package/base-framework)
+[![npm](https://img.shields.io/npm/v/@chrisai/base?color=00d8ff&label=npm&style=flat-square)](https://www.npmjs.com/package/@chrisai/base)
 [![Node](https://img.shields.io/badge/node-%3E%3D16.7.0-brightgreen?style=flat-square)](https://nodejs.org)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-8b5cf6?style=flat-square)](https://claude.ai/code)
@@ -35,7 +24,7 @@ BASE keeps your Claude Code workspace from becoming a mess. It scaffolds structu
 ## Install
 
 ```bash
-npx base-framework --global --workspace
+npx @chrisai/base --global --workspace
 ```
 
 | Flag | What it does |
@@ -50,13 +39,13 @@ npx base-framework --global --workspace
 
 ```bash
 # Full install — global commands + current workspace
-npx base-framework --global --workspace
+npx @chrisai/base --global --workspace
 
 # Already have global? Just wire a new workspace
-npx base-framework --workspace
+npx @chrisai/base --workspace
 
 # Global only — set up each workspace later with /base:scaffold
-npx base-framework --global
+npx @chrisai/base --global
 ```
 
 ---

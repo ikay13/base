@@ -1,5 +1,5 @@
 {
-  "name": "base-framework",
+  "name": "@chrisai/base",
   "version": "2.3.0",
   "description": "Builder's Automated State Engine — workspace orchestration framework for Claude Code",
   "bin": {
