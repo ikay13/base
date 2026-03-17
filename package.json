@@ -1,0 +1,38 @@
+{
+  "name": "base-framework",
+  "version": "2.0.0",
+  "description": "Builder's Automated State Engine — workspace orchestration framework for Claude Code",
+  "bin": {
+    "base-framework": "bin/install.js"
+  },
+  "files": [
+    "bin",
+    "src/commands",
+    "src/skill",
+    "src/packages",
+    "src/hooks"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "workspace",
+    "orchestration",
+    "base",
+    "data-surfaces",
+    "mcp"
+  ],
+  "author": "Chris Kahler",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristopherKahler/base.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChristopherKahler/base/issues"
+  },
+  "homepage": "https://github.com/ChristopherKahler/base#readme",
+  "engines": {
+    "node": ">=16.7.0"
+  }
+}

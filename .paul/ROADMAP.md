@@ -7,8 +7,8 @@ BASE v2 evolves from a workspace state tracker into a full workspace orchestrati
 ## Current Milestone
 
 **v2.0 Data Surfaces & Extensibility** (v2.0.0)
-Status: In progress
-Phases: 5 of 6 complete
+Status: COMPLETE
+Phases: 6 of 6 complete
 
 ## Phases
 
@@ -19,7 +19,7 @@ Phases: 5 of 6 complete
 | 3 | BASE MCP Server | 1/1 | Complete | 2026-03-17 |
 | 4 | Active + Backlog Surface Conversion | 1/1 | Complete | 2026-03-17 |
 | 5 | Surface Extensibility | 1/1 | Complete | 2026-03-17 |
-| 6 | Scaffold v2 & Documentation | TBD | Not started | - |
+| 6 | Package BASE as Distributable App | 1/1 | Complete | 2026-03-17 |
 
 ## Phase Details
 
