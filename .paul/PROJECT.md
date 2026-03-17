@@ -33,7 +33,7 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 ### Active (In Progress)
 
 - [x] Data directory reorganization (.base/data/) — v2, Phase 1
-- [ ] Hook template with best practices — v2
+- [x] Hook template with best practices — v2, Phase 2
 - [ ] BASE MCP server (generic surface CRUD) — v2
 - [ ] Active/Backlog JSON conversion (data surfaces) — v2
 - [ ] Surface extensibility (/base:surface create/convert) — v2
@@ -139,4 +139,4 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-03-17 after Phase 1*
+*Last updated: 2026-03-17 after Phase 2*
