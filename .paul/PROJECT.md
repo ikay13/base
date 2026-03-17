@@ -36,7 +36,7 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 - [x] Hook template with best practices — v2, Phase 2
 - [x] BASE MCP server (generic surface CRUD) — v2, Phase 3
 - [x] Active/Backlog JSON conversion (data surfaces) — v2, Phase 4
-- [ ] Surface extensibility (/base:surface create/convert) — v2
+- [x] Surface extensibility (/base:surface create/convert) — v2, Phase 5
 - [ ] Passive awareness behavioral directives — v2
 
 ### Planned (Next)
@@ -139,4 +139,4 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-03-17 after Phase 4*
+*Last updated: 2026-03-17 after Phase 5*

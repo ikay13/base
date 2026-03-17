@@ -10,25 +10,26 @@ See: .paul/PROJECT.md (updated 2026-03-17)
 ## Current Position
 
 Milestone: v2.0 Data Surfaces & Extensibility (v2.0.0)
-Phase: 5 of 6 (Surface Extensibility)
+Phase: 6 of 6 (Scaffold v2 & Documentation)
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-03-17 11:23 — Phase 4 complete, transitioned to Phase 5
+Last activity: 2026-03-17 12:26 — Phase 5 complete, transitioned to Phase 6
 
 Progress:
-- Milestone: [██████░░░░] 66%
+- Milestone: [████████░░] 83%
 - Phase 1: [██████████] 100% COMPLETE
 - Phase 2: [██████████] 100% COMPLETE
 - Phase 3: [██████████] 100% COMPLETE
 - Phase 4: [██████████] 100% COMPLETE
-- Phase 5: [░░░░░░░░░░] 0%
+- Phase 5: [██████████] 100% COMPLETE
+- Phase 6: [░░░░░░░░░░] 0%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ○        ○        ○     [Ready for Phase 5 planning]
+  ○        ○        ○     [Ready for Phase 6 planning]
 ```
 
 ## Accumulated Context
@@ -42,15 +43,21 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Migrate existing .claude/hooks/ to .base/hooks/ | Design session | M | After v2 stable |
 | Decisions redesign (per-domain JSON in .carl/decisions/) | DECISIONS-REDESIGN-SPEC.md | L | After Phase 1 |
 | CARL hygiene implementation | CARL-HYGIENE-SPEC.md | M | After Phase 1 |
+| paul.json satellite manifest + PAUL init update | CARL decisions paul-012 | L | v2.1 milestone |
+| Session-start satellite detection hook | CARL decision global-002 | M | v2.1 milestone |
+| BASE groom satellite health checks (configurable) | CARL decision global-003 | M | v2.1 milestone |
+| Bidirectional staleness (PAUL→BASE timestamps) | Phase 5 discussion | M | v2.1 milestone |
+| BASE framework to global (~/.claude/base-framework/) | CARL decision global-004 | L | v2.1 — pending confirmation |
+| Remove redundant get-backlog-stale.py hook | Phase 4 | S | After v2 stable |
 
 ### Blockers/Concerns
 None.
 
 ## Session Continuity
 
-Last session: 2026-03-17 11:23
-Stopped at: Phase 4 complete, ready to plan Phase 5
-Next action: /paul:plan for Phase 5 (Surface Extensibility)
+Last session: 2026-03-17 12:26
+Stopped at: Phase 5 complete, ready to plan Phase 6
+Next action: /paul:plan for Phase 6 (Scaffold v2 & Documentation)
 Resume file: .paul/ROADMAP.md
 
 ---
