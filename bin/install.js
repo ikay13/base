@@ -159,17 +159,35 @@ function installCommands(isGlobal) {
   copyDir(commandsSrc, commandsDest);
   console.log(`  ${green}+${reset} commands/base/ (3 slash commands)`);
 
-  // Copy skill
+  // Copy skill entry point
   const skillSrc = path.join(src, 'src', 'skill');
   const skillDest = path.join(claudeDir, 'skills', 'base');
   copyDir(skillSrc, skillDest);
-  console.log(`  ${green}+${reset} skills/base/ (entry point, tasks, templates, frameworks)`);
+  console.log(`  ${green}+${reset} skills/base/ (entry point + MCP package sources)`);
 
   // Copy MCP package sources into skill (for scaffold reference)
   const packagesSrc = path.join(src, 'src', 'packages');
   const packagesDest = path.join(claudeDir, 'skills', 'base', 'packages');
   copyDir(packagesSrc, packagesDest);
-  console.log(`  ${green}+${reset} skills/base/packages/ (MCP sources)`);
+
+  // Copy BASE framework (tasks, templates, context, frameworks)
+  const frameworkSrc = path.join(src, 'src', 'framework');
+  const frameworkDest = path.join(claudeDir, 'base-framework');
+  copyDir(frameworkSrc, frameworkDest);
+  console.log(`  ${green}+${reset} base-framework/ (tasks, templates, context, frameworks)`);
+
+  // Copy session hooks to global base-framework/hooks/ (source for scaffold)
+  const sessionHookNames = ['base-pulse-check.py', 'psmm-injector.py', 'satellite-detection.py'];
+  const hooksFrameworkDest = path.join(claudeDir, 'base-framework', 'hooks');
+  fs.mkdirSync(hooksFrameworkDest, { recursive: true });
+  const hooksSrcDir = path.join(src, 'src', 'hooks');
+  for (const hookFile of sessionHookNames) {
+    const hookSrcPath = path.join(hooksSrcDir, hookFile);
+    if (fs.existsSync(hookSrcPath)) {
+      fs.copyFileSync(hookSrcPath, path.join(hooksFrameworkDest, hookFile));
+    }
+  }
+  console.log(`  ${green}+${reset} base-framework/hooks/ (session hooks for scaffold)`);
 
   console.log(`\n  ${green}Commands installed.${reset}\n`);
 }
@@ -206,7 +224,7 @@ function installWorkspace() {
   // Session hooks (base-pulse-check, psmm-injector) → .claude/hooks/
   const allHooksSrc = path.join(src, 'src', 'hooks');
   const surfaceHooks = ['_template.py', 'active-hook.py', 'backlog-hook.py'];
-  const sessionHooks = ['base-pulse-check.py', 'psmm-injector.py'];
+  const sessionHooks = ['base-pulse-check.py', 'psmm-injector.py', 'satellite-detection.py'];
 
   const entries = fs.readdirSync(allHooksSrc);
   for (const file of entries) {
@@ -223,7 +241,7 @@ function installWorkspace() {
     }
   }
   console.log(`  ${green}+${reset} .base/hooks/ (${surfaceHooks.length} surface hooks)`);
-  console.log(`  ${green}+${reset} .claude/hooks/ (${sessionHooks.length} session hooks)`);
+  console.log(`  ${green}+${reset} .claude/hooks/ (${sessionHooks.length} session hooks: pulse, PSMM, satellite)`);
 
   // npm install for MCP servers
   console.log(`\n  Installing MCP dependencies...`);

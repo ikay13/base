@@ -1,6 +1,6 @@
 {
   "name": "base-framework",
-  "version": "2.0.0",
+  "version": "2.3.0",
   "description": "Builder's Automated State Engine — workspace orchestration framework for Claude Code",
   "bin": {
     "base-framework": "bin/install.js"
@@ -9,8 +9,10 @@
     "bin",
     "src/commands",
     "src/skill",
+    "src/framework",
     "src/packages",
-    "src/hooks"
+    "src/hooks",
+    "README.md"
   ],
   "keywords": [
     "claude",

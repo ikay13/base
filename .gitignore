@@ -1,0 +1,12 @@
+# Context and planning files (internal only — root level)
+BASE-V1-SPEC.md
+BASE-V2-SPEC.md
+CARL-HYGIENE-SPEC.md
+CARL-MCP-SPEC.md
+DECISIONS-REDESIGN-SPEC.md
+
+# PAUL planning directory
+.paul/
+
+# Node
+node_modules/
