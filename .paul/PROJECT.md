@@ -45,7 +45,7 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 ### Planned (Next)
 
 - [x] Bidirectional staleness — PAUL→BASE timestamps (paul.json → workspace.json last_activity) — v2.2, Phase 10
-- [ ] BASE framework global migration (~/.claude/base-framework/) — v2.2, Phase 11
+- [x] BASE framework global migration (~/.claude/base-framework/) — v2.2, Phase 11
 - [ ] Scaffold v2 (end-to-end MCP + hook + surface installation)
 - [ ] Distribution packaging for Skool/GitHub
 - [ ] Teaching notes for "From Zero to Dangerous" course
@@ -117,6 +117,7 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 | Groom satellite health: report-only, no auto-fix | Operator decides what to do with flagged satellites; groom surfaces issues only | 2026-03-17 | Active |
 | last_activity: PRIMARY from paul.json timestamps, FALLBACK to STATE.md parse | Structured data preferred; pre-v1.1 satellites (no paul.json) degrade gracefully | 2026-03-17 | Active |
 | Hook writes last_activity only on value change | Avoids unnecessary workspace.json writes each session | 2026-03-17 | Active |
+| Framework at ~/.claude/base-framework/, data at .base/ | Global framework + local data pattern — mirrors PAUL | 2026-03-17 | Active |
 
 ## Success Metrics
 
@@ -150,4 +151,4 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-03-17 after Phase 10 — v2.2 Phase 10 complete*
+*Last updated: 2026-03-17 after Phase 11 — v2.2 milestone complete*

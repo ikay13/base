@@ -53,42 +53,42 @@ Workspace operations engineer. Knows the territory, tracks what's drifting, enfo
 
 | Command | Description | Routes To |
 |---------|------------|-----------|
-| `/base:pulse` | Daily activation — workspace health briefing | `@tasks/pulse.md` |
-| `/base:groom` | Weekly maintenance cycle | `@tasks/groom.md` |
-| `/base:audit` | Deep workspace optimization | `@tasks/audit.md` |
-| `/base:scaffold` | Set up BASE in a new workspace | `@tasks/scaffold.md` |
-| `/base:status` | Quick health check (one-liner) | `@tasks/status.md` |
-| `/base:history` | Workspace evolution timeline | `@tasks/history.md` |
-| `/base:audit-claude-md` | Audit CLAUDE.md, generate recommended version | `@tasks/audit-claude-md.md` |
-| `/base:carl-hygiene` | CARL domain maintenance and rule review | `@tasks/carl-hygiene.md` |
-| `/base:surface create` | Create a new data surface (guided) | `@tasks/surface-create.md` |
-| `/base:surface convert` | Convert markdown file to data surface | `@tasks/surface-convert.md` |
-| `/base:surface list` | Show all registered surfaces | `@tasks/surface-list.md` |
+| `/base:pulse` | Daily activation — workspace health briefing | `@~/.claude/base-framework/tasks/pulse.md` |
+| `/base:groom` | Weekly maintenance cycle | `@~/.claude/base-framework/tasks/groom.md` |
+| `/base:audit` | Deep workspace optimization | `@~/.claude/base-framework/tasks/audit.md` |
+| `/base:scaffold` | Set up BASE in a new workspace | `@~/.claude/base-framework/tasks/scaffold.md` |
+| `/base:status` | Quick health check (one-liner) | `@~/.claude/base-framework/tasks/status.md` |
+| `/base:history` | Workspace evolution timeline | `@~/.claude/base-framework/tasks/history.md` |
+| `/base:audit-claude-md` | Audit CLAUDE.md, generate recommended version | `@~/.claude/base-framework/tasks/audit-claude-md.md` |
+| `/base:carl-hygiene` | CARL domain maintenance and rule review | `@~/.claude/base-framework/tasks/carl-hygiene.md` |
+| `/base:surface create` | Create a new data surface (guided) | `@~/.claude/base-framework/tasks/surface-create.md` |
+| `/base:surface convert` | Convert markdown file to data surface | `@~/.claude/base-framework/tasks/surface-convert.md` |
+| `/base:surface list` | Show all registered surfaces | `@~/.claude/base-framework/tasks/surface-list.md` |
 
 </commands>
 
 <routing>
 
 ## Always Load
-- `@context/base-principles.md` — Core workspace management principles
-- `@frameworks/audit-strategies.md` — Reusable audit strategy definitions
+- `@~/.claude/base-framework/context/base-principles.md` — Core workspace management principles
+- `@~/.claude/base-framework/frameworks/audit-strategies.md` — Reusable audit strategy definitions
 
 ## Load on Command
-- `@tasks/pulse.md` — on `/base:pulse`
-- `@tasks/groom.md` — on `/base:groom`
-- `@tasks/audit.md` — on `/base:audit`
-- `@tasks/scaffold.md` — on `/base:scaffold`
-- `@tasks/status.md` — on `/base:status`
-- `@tasks/history.md` — on `/base:history`
-- `@tasks/carl-hygiene.md` — on `/base:carl-hygiene`
-- `@tasks/surface-create.md` — on `/base:surface create`
-- `@tasks/surface-convert.md` — on `/base:surface convert`
-- `@tasks/surface-list.md` — on `/base:surface list`
+- `@~/.claude/base-framework/tasks/pulse.md` — on `/base:pulse`
+- `@~/.claude/base-framework/tasks/groom.md` — on `/base:groom`
+- `@~/.claude/base-framework/tasks/audit.md` — on `/base:audit`
+- `@~/.claude/base-framework/tasks/scaffold.md` — on `/base:scaffold`
+- `@~/.claude/base-framework/tasks/status.md` — on `/base:status`
+- `@~/.claude/base-framework/tasks/history.md` — on `/base:history`
+- `@~/.claude/base-framework/tasks/carl-hygiene.md` — on `/base:carl-hygiene`
+- `@~/.claude/base-framework/tasks/surface-create.md` — on `/base:surface create`
+- `@~/.claude/base-framework/tasks/surface-convert.md` — on `/base:surface convert`
+- `@~/.claude/base-framework/tasks/surface-list.md` — on `/base:surface list`
 
 ## Load on Demand
-- `@templates/workspace-json.md` — When generating workspace.json
-- `@templates/state-md.md` — When generating STATE.md
-- `@frameworks/satellite-registration.md` — When handling PAUL project registration
+- `@~/.claude/base-framework/templates/workspace-json.md` — When generating workspace.json
+- `@~/.claude/base-framework/templates/state-md.md` — When generating STATE.md
+- `@~/.claude/base-framework/frameworks/satellite-registration.md` — When handling PAUL project registration
 
 </routing>
 

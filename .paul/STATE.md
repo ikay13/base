@@ -5,30 +5,27 @@
 See: .paul/PROJECT.md (updated 2026-03-17)
 
 **Core value:** AI builders can maintain workspace health automatically, convert @-mentioned files into structured data surfaces, and extend their Claude Code environment — all without manual bookkeeping.
-**Current focus:** v2.2 Groom & Sync — Phase 11 next (pending global-004 confirmation)
+**Current focus:** v2.2 COMPLETE — next milestone TBD
 
 ## Current Position
 
-Milestone: v2.2 Groom & Sync (v2.2.0)
-Phase: 11 of 11 (BASE Framework Global Migration)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-03-17 16:27 — Phase 10 complete, transitioned to Phase 11
+Milestone: v2.2 Groom & Sync (v2.2.0) — COMPLETE
+Phase: 3 of 3 — MILESTONE COMPLETE
+Plan: 11-01 unified
+Status: v2.2 Groom & Sync — COMPLETE
+Last activity: 2026-03-17 16:39 — Phase 11 complete, v2.2 milestone closed
 
 Progress:
 - v2.0 Milestone: [██████████] 100% COMPLETE
 - v2.1 Milestone: [██████████] 100% COMPLETE
-- v2.2 Milestone: [██████░░░░] 67% (2/3 phases)
-- Phase 9: [██████████] 100% COMPLETE
-- Phase 10: [██████████] 100% COMPLETE
-- Phase 11: [░░░░░░░░░░] 0%
+- v2.2 Milestone: [██████████] 100% COMPLETE
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ○        ○        ○     [Ready for first PLAN]
+  ✓        ✓        ✓     [v2.2 MILESTONE COMPLETE]
 ```
 
 ## Accumulated Context
@@ -37,7 +34,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 12 architectural decisions locked. Full list in PROJECT.md Key Decisions table.
 - Phase 9: groom_check opt-out model (default true), report-only health surfacing, 3 criteria
 - Phase 10: last_activity from paul.json timestamps.updated_at, PRIMARY/FALLBACK pattern
-- Phase 10: hook writes last_activity only on value change (no unnecessary manifest writes)
+- Phase 11: framework → ~/.claude/base-framework/ (global), data stays .base/ (workspace-local)
 
 ### Deferred Issues
 | Issue | Origin | Effort | Revisit |
@@ -50,7 +47,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Remove redundant get-backlog-stale.py hook | Phase 4 | S | **DONE** — already gone |
 | BASE groom satellite health checks (configurable) | CARL decision global-003 | M | **DONE** — Phase 9 |
 | Bidirectional staleness (PAUL→BASE timestamps) | Phase 5 discussion | M | **DONE** — Phase 10 |
-| BASE framework to global (~/.claude/base-framework/) | CARL decision global-004 | L | Pending confirmation |
+| BASE framework to global (~/.claude/base-framework/) | CARL decision global-005 | L | **DONE** — Phase 11 |
 
 ### Blockers/Concerns
 None.
@@ -59,7 +56,7 @@ None.
 
 Last session: 2026-03-17 16:17
 Stopped at: Phase 9 complete, transition done — ready to plan Phase 10
-Next action: /paul:plan for Phase 11 (BASE Framework Global Migration) — needs global-004 confirmation first
+Next action: Create next milestone or ship
 Resume file: .paul/ROADMAP.md
 
 ---

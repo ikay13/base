@@ -149,14 +149,14 @@ Phases: 1 of 1 complete
 ## Next Milestone
 
 **v2.2 Groom & Sync** (v2.2.0)
-Status: 🚧 In Progress
-Phases: 0 of 3 complete
+Status: COMPLETE
+Phases: 3 of 3 complete
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 9 | Groom Satellite Health Checks | 1/1 | Complete | 2026-03-17 |
 | 10 | Bidirectional Staleness | 1/1 | Complete | 2026-03-17 |
-| 11 | BASE Framework Global Migration | TBD | Not started | - |
+| 11 | BASE Framework Global Migration | 1/1 | Complete | 2026-03-17 |
 
 ### Phase 9: Groom Satellite Health Checks
 
