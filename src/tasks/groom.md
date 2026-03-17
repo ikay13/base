@@ -85,10 +85,12 @@ Review PAUL satellite project health.
 3. For each eligible satellite:
    a. Read its STATE.md at the path in `satellite.state` (relative to workspace root)
    b. If STATE.md is missing or unreadable → note as "⚠️ {name}: STATE.md not found"
-   c. Parse:
-      - "Last activity" line → extract timestamp
-      - "Loop Position" section → extract PLAN/APPLY/UNIFY markers (✓ = done, ○ = pending)
-   d. Evaluate health criteria:
+   c. Get last activity timestamp:
+      - PRIMARY: read `satellite.last_activity` from workspace.json entry (ISO timestamp written by session-start hook from paul.json)
+      - FALLBACK: if `last_activity` not present in workspace.json, parse "Last activity" line from the satellite's STATE.md
+      - If neither available → note as "⚠️ {name}: cannot determine last activity"
+   d. Parse "Loop Position" section from STATE.md → extract PLAN/APPLY/UNIFY markers (✓ = done, ○ = pending)
+   e. Evaluate health criteria:
       - **STUCK LOOP**: Loop shows PLAN ✓ APPLY ○ or PLAN ✓ APPLY ✓ UNIFY ○, AND last activity > 7 days ago
       - **ABANDONED PHASE**: Last activity > 14 days ago AND milestone status is not COMPLETE
       - **MILESTONE DRIFT**: Milestone marked COMPLETE, loop shows ○ ○ ○ (no new milestone started), AND last activity > 14 days ago

@@ -44,7 +44,7 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ### Planned (Next)
 
-- [ ] Bidirectional staleness — PAUL→BASE timestamps (paul.json → workspace.json last_activity) — v2.2, Phase 10
+- [x] Bidirectional staleness — PAUL→BASE timestamps (paul.json → workspace.json last_activity) — v2.2, Phase 10
 - [ ] BASE framework global migration (~/.claude/base-framework/) — v2.2, Phase 11
 - [ ] Scaffold v2 (end-to-end MCP + hook + surface installation)
 - [ ] Distribution packaging for Skool/GitHub
@@ -115,6 +115,8 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 | Hidden dir filter excludes .paul | rglob finds .paul/paul.json — .paul starts with '.' but is the target; filter skips other dot-prefixed dirs | 2026-03-17 | Active |
 | Satellite groom_check: opt-out model (default true) | All satellites checked unless explicitly disabled — respects hygiene by default | 2026-03-17 | Active |
 | Groom satellite health: report-only, no auto-fix | Operator decides what to do with flagged satellites; groom surfaces issues only | 2026-03-17 | Active |
+| last_activity: PRIMARY from paul.json timestamps, FALLBACK to STATE.md parse | Structured data preferred; pre-v1.1 satellites (no paul.json) degrade gracefully | 2026-03-17 | Active |
+| Hook writes last_activity only on value change | Avoids unnecessary workspace.json writes each session | 2026-03-17 | Active |
 
 ## Success Metrics
 
@@ -148,4 +150,4 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-03-17 after Phase 9 — v2.2 Phase 9 complete*
+*Last updated: 2026-03-17 after Phase 10 — v2.2 Phase 10 complete*

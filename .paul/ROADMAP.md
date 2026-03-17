@@ -155,7 +155,7 @@ Phases: 0 of 3 complete
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 9 | Groom Satellite Health Checks | 1/1 | Complete | 2026-03-17 |
-| 10 | Bidirectional Staleness | TBD | Not started | - |
+| 10 | Bidirectional Staleness | 1/1 | Complete | 2026-03-17 |
 | 11 | BASE Framework Global Migration | TBD | Not started | - |
 
 ### Phase 9: Groom Satellite Health Checks
