@@ -8,7 +8,7 @@ BASE v2 evolves from a workspace state tracker into a full workspace orchestrati
 
 **v2.0 Data Surfaces & Extensibility** (v2.0.0)
 Status: COMPLETE
-Phases: 6 of 6 complete
+Phases: 7 of 7 complete
 
 ## Phases
 
@@ -20,6 +20,7 @@ Phases: 6 of 6 complete
 | 4 | Active + Backlog Surface Conversion | 1/1 | Complete | 2026-03-17 |
 | 5 | Surface Extensibility | 1/1 | Complete | 2026-03-17 |
 | 6 | Package BASE as Distributable App | 1/1 | Complete | 2026-03-17 |
+| 7 | Command Wrappers & Source Sync | 1/1 | Complete | 2026-03-17 |
 
 ## Phase Details
 
@@ -111,6 +112,18 @@ Phases: 6 of 6 complete
 - Create BASE teaching notes for "From Zero to Dangerous" course
 - Document the Data Surface pattern as standalone concept
 - Verify scaffold creates full v2 structure end-to-end
+
+### Phase 7: Command Wrappers & Source Sync
+
+**Goal:** Create slash command wrappers for all 8 existing BASE commands (pulse, groom, audit, scaffold, status, history, audit-claude-md, carl-hygiene) and sync everything to apps/base/src/commands/ as source of truth.
+**Depends on:** Phase 6 (package structure exists)
+**Research:** None (templating existing pattern from surface commands)
+
+**Scope:**
+- Create 8 command wrappers at ~/.claude/commands/base/ following surface-create.md pattern
+- Copy all 11 command wrappers (8 new + 3 existing surface commands) to apps/base/src/commands/
+- Update base.md entry point command table to reference slash commands
+- Verify all 11 commands appear in Claude Code skill list after session restart
 
 ---
 *Roadmap created: 2026-03-17*
