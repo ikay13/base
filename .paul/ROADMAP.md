@@ -125,6 +125,78 @@ Phases: 7 of 7 complete
 - Update base.md entry point command table to reference slash commands
 - Verify all 11 commands appear in Claude Code skill list after session restart
 
+## Next Milestone
+
+**v2.1 Satellite Intelligence** (v2.1.0)
+Status: COMPLETE
+Phases: 1 of 1 complete
+
+| Phase | Name | Plans | Status | Completed |
+|-------|------|-------|--------|-----------|
+| 8 | Satellite Detection Hook | 1/1 | Complete | 2026-03-17 |
+
+### Phase 8: Satellite Detection Hook
+
+**Goal:** Session-start hook that scans for `.paul/paul.json` files across the workspace, compares against registered satellites in `workspace.json`, and auto-registers any new ones found. Silent when nothing new; injects notification when satellites are added.
+**Depends on:** v2.0 complete (hook infrastructure, workspace.json satellites schema)
+**Research:** None (extending existing pulse hook pattern)
+
+**Scope:**
+- Write `.base/hooks/satellite-detection.py` — scan satellite dirs for paul.json, auto-register new ones in workspace.json, silent unless new registrations
+- Register hook in `.claude/settings.json` (UserPromptSubmit array)
+- Copy hook to `apps/base/src/hooks/satellite-detection.py` (source sync)
+
+## Next Milestone
+
+**v2.2 Groom & Sync** (v2.2.0)
+Status: 🚧 In Progress
+Phases: 0 of 3 complete
+
+| Phase | Name | Plans | Status | Completed |
+|-------|------|-------|--------|-----------|
+| 9 | Groom Satellite Health Checks | 1/1 | Complete | 2026-03-17 |
+| 10 | Bidirectional Staleness | TBD | Not started | - |
+| 11 | BASE Framework Global Migration | TBD | Not started | - |
+
+### Phase 9: Groom Satellite Health Checks
+
+**Goal:** Add per-project satellite health checking to the groom cycle. Configurable boolean per project (default: active). Checks for stale loops, abandoned phases, overdue milestones.
+**Depends on:** v2.1 (satellite registration exists)
+**Research:** Unlikely (extending existing groom workflow)
+
+**Scope:**
+- Add `groom_check` boolean to satellite entries in workspace.json (default: true)
+- Update groom workflow to read satellites and run health checks for enabled ones
+- Define health check criteria: stale loop (>7d no activity), abandoned phase (>14d), overdue milestone
+- Inject satellite health summary into groom output
+- Source sync to apps/base/src/
+
+### Phase 10: Bidirectional Staleness
+
+**Goal:** Surface when PAUL satellites were last active by reading timestamps from paul.json into workspace.json. Lets BASE know a project is idle without reading its full state.
+**Depends on:** Phase 9 (groom checks use this data)
+**Research:** Unlikely (reading existing paul.json timestamps)
+
+**Scope:**
+- On satellite detection / groom cycle, read `timestamps.updated_at` from each satellite's paul.json
+- Write `last_activity` field to satellite entry in workspace.json
+- Use in groom health checks to determine staleness
+- Source sync to apps/base/src/
+
+### Phase 11: BASE Framework Global Migration
+
+**Goal:** Move BASE framework files (task files, templates, principles) from workspace-local `.claude/skills/base/` to global `~/.claude/base-framework/`. Data stays in `.base/`.
+**Depends on:** Phases 9-10 (all v2.2 feature work complete before structural change)
+**Research:** None (decision already made pending confirmation — global-004)
+
+**Scope:**
+- Confirm decision: BASE framework → `~/.claude/base-framework/`
+- Move task files, templates, principles to global location
+- Update all references in CLAUDE.md, skill entry points, hooks
+- Verify all commands still resolve correctly
+- Update scaffold to install to global location
+- Source sync to apps/base/src/
+
 ---
 *Roadmap created: 2026-03-17*
 *Last updated: 2026-03-17*

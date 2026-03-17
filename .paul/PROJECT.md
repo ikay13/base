@@ -39,9 +39,13 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 - [x] Surface extensibility (/base:surface create/convert) — v2, Phase 5
 - [x] Passive awareness behavioral directives — v2, Phase 4 (built into hooks)
 - [x] Distributable package (apps/base/ with installer) — v2, Phase 6
+- [x] Satellite auto-detection hook (session-start scan + auto-register) — v2.1, Phase 8
+- [x] Satellite health checking in groom cycle (configurable groom_check per satellite) — v2.2, Phase 9
 
 ### Planned (Next)
 
+- [ ] Bidirectional staleness — PAUL→BASE timestamps (paul.json → workspace.json last_activity) — v2.2, Phase 10
+- [ ] BASE framework global migration (~/.claude/base-framework/) — v2.2, Phase 11
 - [ ] Scaffold v2 (end-to-end MCP + hook + surface installation)
 - [ ] Distribution packaging for Skool/GitHub
 - [ ] Teaching notes for "From Zero to Dangerous" course
@@ -107,6 +111,10 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 | Passive awareness by default | Hook injections include behavioral directives against nagging | 2026-03-17 | Active |
 | CARL standalone ships without MCP | Users upgrade to BASE for MCP tools and hygiene | 2026-03-17 | Active |
 | Named BASE | Builder's Automated State Engine — outermost workspace layer | 2026-03-15 | Active |
+| Satellite scan: full workspace recursive, not satellite_dirs config | Domain-agnostic — projects can live anywhere; works for users without apps/ dir | 2026-03-17 | Active |
+| Hidden dir filter excludes .paul | rglob finds .paul/paul.json — .paul starts with '.' but is the target; filter skips other dot-prefixed dirs | 2026-03-17 | Active |
+| Satellite groom_check: opt-out model (default true) | All satellites checked unless explicitly disabled — respects hygiene by default | 2026-03-17 | Active |
+| Groom satellite health: report-only, no auto-fix | Operator decides what to do with flagged satellites; groom surfaces issues only | 2026-03-17 | Active |
 
 ## Success Metrics
 
@@ -140,4 +148,4 @@ AI builders can maintain workspace health automatically, convert expensive @-men
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-03-17 after Phase 6 — v2.0 milestone complete*
+*Last updated: 2026-03-17 after Phase 9 — v2.2 Phase 9 complete*
