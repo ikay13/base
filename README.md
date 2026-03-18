@@ -25,6 +25,7 @@ Turn Claude Code from a per-session tool into a workspace that remembers, mainta
 - [Install](#install)
 - [What Gets Installed](#what-gets-installed)
 - [The Maintenance Cycle](#the-maintenance-cycle)
+- [Config Alignment](#config-alignment--claude-directory-audit)
 - [MCP Servers](#mcp-servers--claude-operates-on-your-data)
 - [Multi-Project Workspaces — BASE + PAUL](#multi-project-workspaces--base--paul)
 - [Creating Custom Surfaces](#creating-custom-surfaces)
@@ -44,6 +45,8 @@ BASE is part of a broader Claude Code extension ecosystem:
 | **BASE** | Builder's Automated State Engine — workspace lifecycle, health tracking, drift prevention | You are here |
 | **CARL** | Context Augmentation & Reinforcement Layer — dynamic rules loaded JIT by intent | [GitHub](https://github.com/ChristopherKahler/carl) |
 | **PAUL** | Project orchestration — Plan, Apply, Unify Loop | [GitHub](https://github.com/ChristopherKahler/paul) |
+| **SEED** | Typed project incubator — guided ideation through graduation into buildable projects | [GitHub](https://github.com/ChristopherKahler/seed) |
+| **Skillsmith** | Skill builder — standardized syntax specs + guided workflows for Claude Code skills | [GitHub](https://github.com/ChristopherKahler/skillsmith) |
 | **CC Strategic AI** | Skool community — courses, community, live support | [Skool](https://skool.com/cc-strategic-ai) |
 
 ---
@@ -189,13 +192,14 @@ npx @chrisai/base --global
 
 ```
 ~/.claude/                              Shared across all workspaces
-├── commands/base/                      11 slash commands
+├── commands/base/                      12 slash commands
 ├── skills/base/                        Skill entry point + package sources
 └── base-framework/
     ├── tasks/                          How each command works (pulse, groom, audit...)
     ├── templates/                      Schemas for workspace.json, STATE.md, surfaces
     ├── context/                        Core principles
-    ├── frameworks/                     Audit strategies, project registration
+    ├── frameworks/                     Audit strategies, config alignment, project registration
+    ├── utils/                          Scanner utilities (scan-claude-dirs.py)
     └── hooks/                          Session hook sources
 
 .base/                                  Per-workspace
@@ -265,6 +269,42 @@ Result: drift score resets to 0, summary gets logged, next groom date is set.
 | `pipeline-status` | Content or task workflows | Flags stuck items and bottlenecks |
 
 The number of audit phases is dynamic — generated from your manifest, not hardcoded. A small workspace gets 3 phases. A large one gets 12. Same command, adapted to your reality.
+
+### Config Alignment — `.claude/` Directory Audit
+
+`/base:audit-claude` solves a problem that grows silently: `.claude/` directory sprawl.
+
+As you work across multiple projects, each one accumulates its own `.claude/` directory — hooks copied from another project, skills installed locally before you went global, settings files with MCP server lists from three months ago. Over time you end up with duplicated hooks running twice, stale config referencing tools that don't exist, and skills taking up space in five project directories when they should live in one global location.
+
+#### How it works
+
+The audit runs in two stages:
+
+**Stage 1: Scanner** — A Python utility (`scan-claude-dirs.py`) runs first and produces a complete JSON dataset of your workspace. It recursively discovers every `.claude/` directory, catalogs every file inside them, and generates an MD5 fingerprint for each one. It also builds baselines of your global `~/.claude/` and workspace root `.claude/` — same treatment, every file fingerprinted. The result is a structured JSON file saved to `.base/audits/data-sets/`.
+
+An MD5 fingerprint is a unique identifier generated from a file's contents. If two files produce the same fingerprint, they are byte-for-byte identical — not "similar," not "probably the same," but provably exact. If the fingerprints differ, the files are different. This means every classification in the audit is based on evidence, not assumption.
+
+**Stage 2: Classification + Report** — Claude reads the scanner's JSON dataset and classifies every item against both baselines:
+
+| Classification | What It Means |
+|---------------|---------------|
+| **DUPLICATE** | Fingerprint matches a baseline file — provably identical, safe to remove |
+| **DIVERGED** | Same name exists in a baseline but different fingerprint — needs a decision |
+| **GLOBAL_CANDIDATE** | Verified not to exist in any baseline — suggest promotion |
+| **PROJECT_SPECIFIC** | Legitimately belongs in this project — leave it alone |
+| **STALE** | References things that no longer exist — clean up |
+| **ACCIDENTAL** | Nested `.claude/.claude/` dirs, empty dirs — delete |
+| **TEMPLATE** | Lives in a `_template/` directory — intentional, skip |
+
+The scanner produces the data. Claude produces the judgment. Separating these means the data is deterministic and complete — Claude can't accidentally skip a file or forget to check a baseline.
+
+#### Remediation
+
+Findings are grouped by risk level (lowest first) and every change requires explicit approval. The workflow never batch-deletes, never assumes a messy config is wrong, and never modifies your global `~/.claude/` without asking. After changes, it verifies no broken references were created and recommends which projects to test.
+
+The full audit report is written to `.base/audits/` as a structured markdown file — readable in any markdown viewer, not buried in terminal output. The scanner's raw JSON dataset is preserved in `.base/audits/data-sets/` for reference.
+
+The strategy is defined in a standalone framework file (`claude-config-alignment.md`) that any audit workflow can compose in at runtime — it doesn't modify existing audit strategies.
 
 ---
 
