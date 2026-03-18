@@ -451,17 +451,6 @@ Already have a markdown file with structured data? This command reads it, detect
 
 ## How the Ecosystem Fits Together
 
-**All tools are fully independent.** No dependencies between them. Use one, some, or all.
-
-**How they enhance each other when combined:**
-- **BASE + PAUL** — PAUL projects auto-register with BASE on session start, giving you workspace-level visibility across all your builds. BASE groom checks project health. PAUL handles the project. BASE handles the portfolio.
-- **BASE + CARL** — BASE bundles CARL's MCP server, upgrading CARL from config files to programmatic rule management, decision logging, and session memory. BASE groom can optionally check CARL rule health and surface staged proposals for review.
-- **CARL + PAUL** — Independent. Each operates in its own scope (session rules vs project builds).
-- **AEGIS** — If you're building applications and want deep codebase auditing — security, architecture, scalability, compliance — [AEGIS](https://github.com/ChristopherKahler/aegis) deploys 12 AI agent personas across 14 audit domains. It works standalone or pairs with PAUL for structured remediation execution.
-- **All four** — The full stack. BASE manages the workspace, CARL manages session behavior, PAUL manages project builds, AEGIS audits the code. Each layer does its job without stepping on the others.
-
-Think of it as layers:
-
 ```
 ┌─────────────────────────────────┐
 │  PAUL   (per-project lifecycle) │  Plan → Apply → Unify
@@ -472,7 +461,20 @@ Think of it as layers:
 └─────────────────────────────────┘
 ```
 
-BASE works alone. CARL works alone. PAUL works alone. But together, they turn Claude Code from a per-session coding tool into a managed operating system for AI builders.
+**All tools are fully independent.** No dependencies between them. Use one, some, or all. References to uninstalled tools are silent — no errors, no noise. If you only install BASE, you'll never see a PAUL or CARL warning.
+
+Together, they turn Claude Code from a per-session coding tool into a managed operating system for AI builders.
+
+<details>
+<summary><strong>How they enhance each other when combined</strong></summary>
+
+- **BASE + PAUL** — PAUL projects auto-register with BASE on session start, giving you workspace-level visibility across all your builds. BASE groom checks project health. PAUL handles the project. BASE handles the portfolio.
+- **BASE + CARL** — BASE bundles CARL's MCP server, upgrading CARL from config files to programmatic rule management, decision logging, and session memory. BASE groom can optionally check CARL rule health and surface staged proposals for review.
+- **CARL + PAUL** — Independent. Each operates in its own scope (session rules vs project builds).
+
+</details>
+
+**See also:** [AEGIS](https://github.com/ChristopherKahler/aegis) — an optional companion for deep codebase auditing (security, architecture, scalability, compliance). 12 AI agent personas across 14 audit domains. Works standalone or pairs with PAUL for structured remediation.
 
 ---
 
