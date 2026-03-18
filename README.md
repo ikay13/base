@@ -274,14 +274,14 @@ Claude can read, search, and manage your rule domains through tool calls instead
 
 #### Decision Logger
 
-Every significant decision you make during a session can be logged with rationale and recall keywords. Next time a similar situation comes up, Claude can search your decision history instead of asking you the same question twice.
+Decisions get lost. You make a call in one session — "we're using OAuth, not API keys" — and three sessions later Claude asks you the same question. Or worse, it makes the opposite choice because it has no memory of what you decided.
+
+CARL's decision logger fixes this. Decisions are stored per domain (e.g., `decisions/development.json`, `decisions/global.json`) and **load automatically alongside domain rules**. When CARL loads the "development" domain because you're coding, every decision you've ever logged in that domain loads with it as lightweight metadata. Claude reads your decisions before acting on the prompt itself. It never misses a key decision again — not because it searches for it, but because the decision is already in context the moment the domain is relevant.
 
 | Tool | What It Does |
 |------|-------------|
 | `carl_log_decision` | Record a decision with domain, rationale, and recall keywords |
-| `carl_search_decisions` | Search past decisions by keyword — "How did we handle auth last time?" |
-
-Decisions are stored per domain (e.g., `decisions/development.json`, `decisions/global.json`). They persist across sessions permanently.
+| `carl_search_decisions` | Search across all domains when you need to find something specific |
 
 #### Per-Session Meta Memory (PSMM)
 
