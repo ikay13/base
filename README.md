@@ -335,7 +335,8 @@ BASE is designed to work alongside PAUL as the workspace layer that ties everyth
 
 BASE automatically detects and registers PAUL projects across your workspace:
 
-- A hook scans for `.paul/paul.json` files every prompt — when it finds a new PAUL project, it registers it in `workspace.json` automatically
+- On session start, a hook scans your workspace for `.paul/paul.json` files and registers any new PAUL projects in `workspace.json` automatically
+- If you started using PAUL before BASE, update PAUL to the latest version and run `/paul:register` in any PAUL project directory to generate the `paul.json` manifest. The next time you start a session in your BASE workspace, it picks it up automatically.
 - Activity timestamps from each project flow into the workspace manifest so BASE always knows when each project was last touched
 - During weekly groom, BASE checks each registered project's health:
   - **Stuck?** — Planning done but implementation stalled for 7+ days
