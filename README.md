@@ -97,17 +97,25 @@ But you can create surfaces for anything — clients, contacts, content pipeline
 
 Every BASE command reads from this manifest. You configure it once during setup, and the system maintains itself from there.
 
-### Session Hooks — The Glue
+### Hooks — The Glue
 
-Three Python hooks fire on every Claude Code session start:
+BASE uses Claude Code's [hook system](https://docs.anthropic.com/en/docs/claude-code/hooks) to inject context automatically. There are two types:
+
+**Every prompt** — These fire on every message you send (`UserPromptSubmit`), keeping Claude's awareness current throughout the session:
 
 | Hook | What It Does |
 |------|-------------|
 | **Pulse check** | Calculates workspace drift score, warns if grooming is overdue |
-| **PSMM injector** | Injects per-session meta memory (decisions, corrections, key insights from previous sessions) |
-| **Project detection** | Scans for new projects in your workspace and auto-registers them |
+| **PSMM injector** | Injects per-session meta memory — decisions you've made, corrections, key insights that need to stay hot across a long session |
+| **Surface hooks** | One per data surface (active, backlog, or custom). Reads the JSON, outputs a compact summary so Claude passively knows the current state |
 
-These hooks are lightweight — they read JSON files and output compact XML summaries. No network calls, no heavy dependencies, no noticeable latency.
+**Every prompt (once-effective)** — Fires every prompt but only acts when something changed:
+
+| Hook | What It Does |
+|------|-------------|
+| **PAUL project detection** | Scans your workspace for [PAUL](https://github.com/ChristopherKahler/paul) project files (`.paul/paul.json`), auto-registers new ones into `workspace.json`. Only writes when it finds something new. (More on PAUL below.) |
+
+All hooks are lightweight Python — they read JSON files and output compact XML summaries. No network calls, no heavy dependencies, no noticeable latency. A hook that has nothing to report outputs nothing and exits silently.
 
 ---
 
@@ -170,10 +178,10 @@ npx @chrisai/base --global
 ├── base-mcp/                           MCP server for surface operations (CRUD)
 └── carl-mcp/                           MCP server for rules engine operations
 
-.claude/hooks/                          Session-level hooks
-├── base-pulse-check.py                 Drift detection every session
-├── psmm-injector.py                    Session meta memory
-└── satellite-detection.py              Auto-discovers projects
+.claude/hooks/                          Prompt-level hooks (UserPromptSubmit)
+├── base-pulse-check.py                 Drift detection + groom reminders
+├── psmm-injector.py                    Per-session meta memory injection
+└── satellite-detection.py              Auto-discovers PAUL projects
 ```
 
 ---
@@ -263,36 +271,69 @@ When you create a new surface, the MCP server auto-discovers it from `workspace.
 
 ---
 
-## Multi-Project Workspaces
+## Multi-Project Workspaces — BASE + PAUL
 
 Here's where BASE really separates from "just another CLAUDE.md helper."
 
-Most Claude Code users work on one project at a time. But real workspaces have multiple projects — apps, client work, tools, content pipelines — each with their own state. Without something managing the workspace level, you lose track. Projects stall silently. Phase work gets abandoned. Nobody notices until it's a problem.
+Most Claude Code users work on one project at a time. But real workspaces have multiple projects — apps, client work, tools, content pipelines — each in their own directory, sometimes their own git repo. Without something managing the workspace level, you lose track. Projects stall silently. Work gets abandoned. Nobody notices until it's a problem.
 
-BASE solves this with **automatic project detection and health monitoring.**
+### What Is PAUL?
 
-### How It Works
+[PAUL](https://github.com/ChristopherKahler/paul) is a project orchestration framework for Claude Code. It manages individual project builds through a structured **Plan → Apply → Unify** loop:
 
-If you use [PAUL](https://github.com/ChristopherKahler/paul) (a project orchestration framework for Claude Code that manages builds through a Plan-Apply-Unify loop), BASE auto-detects your PAUL projects:
+- **Plan** — Define what you're building, break it into phases, get alignment before writing code
+- **Apply** — Execute the plan phase by phase with built-in progress tracking
+- **Unify** — Reconcile what was planned vs what was built, close the loop, start the next milestone
 
-- Every session, a hook scans your workspace for PAUL project files
-- New projects register themselves in `workspace.json` automatically
-- During weekly groom, BASE checks each project's health:
+Each PAUL project lives in its own directory with a `.paul/` config folder that tracks the project's state, milestones, and phase history. PAUL is excellent at managing a single project's lifecycle. But it doesn't know about your other projects, your backlog, or your workspace health.
+
+### Where BASE Comes In
+
+BASE is designed to work alongside PAUL as the workspace layer that ties everything together. Think of it as the difference between **project management** and **portfolio management:**
+
+- **PAUL** manages each project: "What phase am I in? What's the plan? What's left to build?"
+- **BASE** manages your workspace: "Which of my 6 projects needs attention? Which ones are stalling? What should I work on today?"
+
+### How They Connect
+
+BASE automatically detects and registers PAUL projects across your workspace:
+
+- A hook scans for `.paul/paul.json` files every prompt — when it finds a new PAUL project, it registers it in `workspace.json` automatically
+- Activity timestamps from each project flow into the workspace manifest so BASE always knows when each project was last touched
+- During weekly groom, BASE checks each registered project's health:
   - **Stuck?** — Planning done but implementation stalled for 7+ days
   - **Abandoned?** — No activity for 14+ days with work still incomplete
   - **Drifting?** — Milestone marked complete but no new work started
+- You can configure health checks per project — enable or disable them in the manifest
 
-BASE never touches your projects. It only reads and reports. Each project manages itself. BASE manages the workspace those projects live in.
+BASE never modifies your projects. It only reads and reports. Each project manages itself through PAUL. BASE manages the workspace those projects live in.
+
+```json
+{
+  "satellites": {
+    "my-saas-app": {
+      "path": "apps/my-saas-app",
+      "engine": "paul",
+      "state": "apps/my-saas-app/.paul/STATE.md",
+      "registered": "2026-03-15",
+      "groom_check": true,
+      "last_activity": "2026-03-17T14:30:00-05:00"
+    }
+  }
+}
+```
 
 ### Without PAUL
 
-Don't use PAUL? BASE still works. The project detection hook is one piece of a larger system. You still get:
+Don't use PAUL? BASE still works as a standalone workspace framework. You still get:
 
 - Data surfaces for tracking any structured information
 - Drift detection and grooming for all workspace areas
 - Audit strategies for directories, tools, and system files
 - The full MCP server for surface CRUD
-- Everything except the automatic project health checks
+- Custom surface creation for anything you need
+
+The project detection hook simply has nothing to find. Everything else operates independently.
 
 ---
 
