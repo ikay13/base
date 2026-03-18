@@ -106,7 +106,7 @@ BASE uses Claude Code's [hook system](https://docs.anthropic.com/en/docs/claude-
 | Hook | What It Does |
 |------|-------------|
 | **Pulse check** | Calculates workspace drift score, warns if grooming is overdue |
-| **PSMM injector** | Injects per-session meta memory — decisions you've made, corrections, key insights that need to stay hot across a long session |
+| **PSMM injector** | Re-injects important session moments (decisions, corrections, insights) into Claude's context so they don't get buried in a long session. [Details below.](#per-session-meta-memory-psmm) |
 | **Surface hooks** | One per data surface (active, backlog, or custom). Reads the JSON, outputs a compact summary so Claude passively knows the current state |
 
 **Every prompt (once-effective)** — Fires every prompt but only acts when something changed:
@@ -256,18 +256,55 @@ A generic CRUD interface for all registered surfaces. Claude can add items, upda
 
 When you create a new surface, the MCP server auto-discovers it from `workspace.json`. No code changes needed.
 
-### CARL MCP — Dynamic Rules Engine
+### CARL MCP — Rules Engine + Decision Memory + Session Intelligence
 
-[CARL](https://github.com/ChristopherKahler/carl) is a separate tool that loads behavioral rules into Claude based on what you're doing — like "when I'm working on Skool, load these community rules" or "when I'm coding, enforce these standards." BASE ships CARL's MCP server so Claude can manage rules programmatically:
+[CARL](https://github.com/ChristopherKahler/carl) (Context Augmentation & Reinforcement Layer) is a dynamic rules engine for Claude Code. On its own, CARL stores behavioral rules in domain files — groups of rules that load automatically based on what you're doing. Say "check Skool" and CARL loads your Skool community rules. Start coding and it loads your development standards. The rules are just config files in `.carl/`.
+
+BASE ships CARL's MCP server, which gives Claude programmatic access to three powerful systems:
+
+#### Dynamic Rules
+
+Claude can read, search, and manage your rule domains through tool calls instead of file edits:
 
 | Tool | What It Does |
 |------|-------------|
-| `carl_list_domains` | List all rule domains |
+| `carl_list_domains` | List all rule domains and their status |
 | `carl_get_domain_rules` | Read rules for a specific domain |
-| `carl_log_decision` | Record a decision with rationale and recall keywords |
-| `carl_search_decisions` | Search decision history |
-| `carl_stage_proposal` | Stage a new rule for review |
-| `carl_psmm_log` | Log a per-session meta memory entry |
+| `carl_stage_proposal` | Stage a new rule proposal for review (more on this below) |
+
+#### Decision Logger
+
+Every significant decision you make during a session can be logged with rationale and recall keywords. Next time a similar situation comes up, Claude can search your decision history instead of asking you the same question twice.
+
+| Tool | What It Does |
+|------|-------------|
+| `carl_log_decision` | Record a decision with domain, rationale, and recall keywords |
+| `carl_search_decisions` | Search past decisions by keyword — "How did we handle auth last time?" |
+
+Decisions are stored per domain (e.g., `decisions/development.json`, `decisions/global.json`). They persist across sessions permanently.
+
+#### Per-Session Meta Memory (PSMM)
+
+Here's the problem with long Claude Code sessions: Claude's context window is huge (up to 1M tokens), but important moments — a design decision you made at minute 5, a correction at minute 20, a key insight at minute 45 — get buried under thousands of lines of tool output and code. By the time you're deep into the session, Claude has technically "seen" these moments but they've drifted so far back in context that they stop influencing behavior.
+
+PSMM fixes this. When something significant happens during a session — a decision, a correction, a context shift, a key insight — Claude logs it:
+
+| Tool | What It Does |
+|------|-------------|
+| `carl_psmm_log` | Log a session meta-memory entry (type: DECISION, CORRECTION, SHIFT, INSIGHT, COMMITMENT) |
+
+The PSMM hook re-injects these entries into Claude's context on every prompt. Important moments stay hot for the entire session, no matter how long it runs.
+
+#### The Rule Staging Pipeline
+
+This is where PSMM, decisions, and rules connect into a learning loop:
+
+1. **During a session** — Claude notices a pattern worth codifying (a correction you gave, a decision that should become policy, an insight about how you work)
+2. **Stage it** — `carl_stage_proposal` creates a draft rule in staging, not in your live rules
+3. **Review during hygiene** — BASE's `/base:carl-hygiene` command walks you through staged proposals: approve, edit, or kill each one
+4. **Approved rules go live** — They become part of your CARL domains, loaded automatically in future sessions
+
+This means your AI assistant gets smarter over time — not by accumulating a massive prompt, but by distilling session learnings into clean, targeted rules. And because staging exists, nothing goes live without your review. The hygiene cycle (part of BASE's groom flow) prevents staged proposals from going stale — they get reviewed or they get killed.
 
 ---
 
