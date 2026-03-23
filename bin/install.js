@@ -187,6 +187,39 @@ function detectV1Artifacts(claudeDir, workspaceDir) {
       }
     }
 
+    // v2-suffixed hook files in .base/hooks/ (now redundant — canonical names have v2 content)
+    const v2SuffixedHooks = ['active-hook-v2.py', 'backlog-hook-v2.py', 'base-pulse-check-v2.py'];
+    const baseHooksDir = path.join(workspaceDir, '.base', 'hooks');
+    if (fs.existsSync(baseHooksDir)) {
+      for (const hook of v2SuffixedHooks) {
+        const hookPath = path.join(baseHooksDir, hook);
+        if (fs.existsSync(hookPath)) {
+          found.push({
+            path: hookPath,
+            label: `.base/hooks/${hook}`,
+            reason: 'v2-suffixed duplicate — canonical name now has v2 content',
+            type: 'file'
+          });
+        }
+      }
+    }
+
+    // Stale -v2 hook paths in .claude/settings.json
+    const settingsPath = path.join(workspaceDir, '.claude', 'settings.json');
+    if (fs.existsSync(settingsPath)) {
+      try {
+        const raw = fs.readFileSync(settingsPath, 'utf-8');
+        if (raw.includes('-v2.py')) {
+          found.push({
+            path: settingsPath,
+            label: '.claude/settings.json → stale -v2 hook paths',
+            reason: 'Hook paths reference -v2.py files that are now archived — will rewrite to canonical names',
+            type: 'settings-v2-paths'
+          });
+        }
+      } catch (e) { /* skip */ }
+    }
+
     // carl-mcp entry in .mcp.json
     const mcpJsonPath = path.join(workspaceDir, '.mcp.json');
     if (fs.existsSync(mcpJsonPath)) {
@@ -246,6 +279,13 @@ function archiveArtifact(artifact, archiveDir) {
     const mcpConfig = JSON.parse(fs.readFileSync(artifact.path, 'utf-8'));
     delete mcpConfig.mcpServers['carl-mcp'];
     fs.writeFileSync(artifact.path, JSON.stringify(mcpConfig, null, 2));
+  } else if (artifact.type === 'settings-v2-paths') {
+    // Rewrite -v2.py hook paths to canonical names in settings.json
+    let raw = fs.readFileSync(artifact.path, 'utf-8');
+    raw = raw.replace(/active-hook-v2\.py/g, 'active-hook.py');
+    raw = raw.replace(/backlog-hook-v2\.py/g, 'backlog-hook.py');
+    raw = raw.replace(/base-pulse-check-v2\.py/g, 'base-pulse-check.py');
+    fs.writeFileSync(artifact.path, raw);
   }
 }
 
