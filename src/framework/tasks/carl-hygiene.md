@@ -104,7 +104,7 @@ Process one domain at a time.
 Quick domain health check — guided Q&A.
 
 1. List all active domains with rule counts
-2. Cross-reference with `.base/data/active.json` current projects:
+2. Cross-reference with `.base/data/projects.json` current projects:
    - Any active projects missing a domain?
    - Any domains for inactive/completed projects?
 3. Check recall phrases:

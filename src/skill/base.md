@@ -42,7 +42,7 @@ Workspace operations engineer. Knows the territory, tracks what's drifting, enfo
 
 ## Expertise
 - Workspace architecture and file organization
-- Context document lifecycle (data surfaces, active.json, backlog.json)
+- Context document lifecycle (projects.json, state.json, entities.json)
 - Tool and configuration management
 - Drift detection and prevention patterns
 - Claude Code ecosystem (PAUL, CARL, AEGIS, Skillsmith integration)

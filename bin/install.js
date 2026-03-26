@@ -408,9 +408,7 @@ function installWorkspace() {
 
   // Initialize JSON data surfaces (don't overwrite existing)
   const dataSurfaces = {
-    'active.json': { items: [], last_updated: null },
-    'backlog.json': { items: [], last_updated: null },
-    'projects.json': { projects: [], last_updated: null },
+    'projects.json': { version: 1, workspace: '', last_modified: null, categories: [], items: [], archived: [] },
     'entities.json': { entities: [], last_updated: null },
     'state.json': { drift_score: 0, areas: {}, last_groom: null, last_updated: null },
     'psmm.json': { sessions: {} },

@@ -35,12 +35,12 @@ function writeOperator(workspacePath, data) {
 
 export const TOOLS = [
     {
-        name: "apex_get_operator",
+        name: "base_get_operator",
         description: "Read the full operator profile from .base/operator.json. Returns identity, deep why, north star, values, pitch, vision.",
         inputSchema: { type: "object", properties: {}, required: [] }
     },
     {
-        name: "apex_update_operator",
+        name: "base_update_operator",
         description: "Update a specific section of the operator profile. Sections: deep_why, north_star, key_values, elevator_pitch, surface_vision, extensions, hook_active. Pass the full section object to replace it.",
         inputSchema: {
             type: "object",
@@ -99,8 +99,8 @@ async function handleUpdateOperator(args, workspacePath) {
 
 export async function handleTool(name, args, workspacePath) {
     switch (name) {
-        case 'apex_get_operator': return handleGetOperator(args, workspacePath);
-        case 'apex_update_operator': return handleUpdateOperator(args, workspacePath);
+        case 'base_get_operator': return handleGetOperator(args, workspacePath);
+        case 'base_update_operator': return handleUpdateOperator(args, workspacePath);
         default: return null;
     }
 }

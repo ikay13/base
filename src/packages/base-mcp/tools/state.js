@@ -1,5 +1,5 @@
 /**
- * APEX State — Read/update tools for state.json
+ * BASE State — Read/update tools for state.json
  * Workspace health, drift tracking, groom scheduling
  */
 
@@ -55,7 +55,7 @@ function todayStr() {
 
 export const TOOLS = [
     {
-        name: "apex_get_state",
+        name: "base_get_state",
         description: "Read full workspace state (groom, drift, areas, satellites, carl_hygiene). Returns entire state.json.",
         inputSchema: {
             type: "object",
@@ -64,7 +64,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_update_drift",
+        name: "base_update_drift",
         description: "Update drift indicators and recalculate composite score. Pass indicator key-value pairs to merge.",
         inputSchema: {
             type: "object",
@@ -78,7 +78,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_record_groom",
+        name: "base_record_groom",
         description: "Record a groom event. Sets last_groom to today and advances next_groom_due based on cadence.",
         inputSchema: {
             type: "object",
@@ -87,7 +87,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_update_area",
+        name: "base_update_area",
         description: "Update a specific workspace area's fields (status, last_touched, groom_due, etc.).",
         inputSchema: {
             type: "object",
@@ -187,13 +187,13 @@ function handleUpdateArea(args, workspacePath) {
 
 export function handleTool(name, args, workspacePath) {
     switch (name) {
-        case 'apex_get_state':
+        case 'base_get_state':
             return handleGetState(workspacePath);
-        case 'apex_update_drift':
+        case 'base_update_drift':
             return handleUpdateDrift(args, workspacePath);
-        case 'apex_record_groom':
+        case 'base_record_groom':
             return handleRecordGroom(workspacePath);
-        case 'apex_update_area':
+        case 'base_update_area':
             return handleUpdateArea(args, workspacePath);
         default:
             return null;

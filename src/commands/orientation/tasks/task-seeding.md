@@ -46,7 +46,7 @@ For each project under the initiative:
 **Wait for response.**
 
 For each task the operator names:
-- Create via apex_add_project(type="task", parent_id="{PRJ-ID}", title="{task}")
+- Create via base_add_project(type="task", parent_id="{PRJ-ID}", title="{task}")
 - Confirm: "Logged: {task} under {project}"
 
 Move to next project after each response.
@@ -86,7 +86,7 @@ Tasks created in Apex via MCP under their parent projects. Operator's immediate 
 
 <acceptance-criteria>
 - [ ] Each initiative's projects presented for task seeding
-- [ ] Tasks created via apex_add_project(type="task") with correct parent_id
+- [ ] Tasks created via base_add_project(type="task") with correct parent_id
 - [ ] Operator could skip projects freely
 - [ ] Summary displayed with total counts
 - [ ] NEVER treated tasks as Claude Code internal todos

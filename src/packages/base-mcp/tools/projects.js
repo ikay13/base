@@ -1,5 +1,5 @@
 /**
- * APEX Projects — Hierarchy-aware CRUD for projects.json
+ * BASE Projects — Hierarchy-aware CRUD for projects.json
  * Supports Initiative > Project > Task with auto-ID by type
  */
 
@@ -66,7 +66,7 @@ function formatTimestamp() {
 
 export const TOOLS = [
     {
-        name: "apex_list_projects",
+        name: "base_list_projects",
         description: "List/filter project items. Supports filtering by type (initiative/project/task), status, priority, parent_id, and category.",
         inputSchema: {
             type: "object",
@@ -81,7 +81,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_get_project",
+        name: "base_get_project",
         description: "Get a single project item by ID. Returns the full item object.",
         inputSchema: {
             type: "object",
@@ -92,7 +92,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_add_project",
+        name: "base_add_project",
         description: "Add a new initiative, project, or task. Auto-generates ID by type (INI-NNN, PRJ-NNN, TSK-NNN). Sets created_at and updated_at.",
         inputSchema: {
             type: "object",
@@ -113,7 +113,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_update_project",
+        name: "base_update_project",
         description: "Update an existing item's fields by ID. Shallow merge — only specified fields updated, others preserved.",
         inputSchema: {
             type: "object",
@@ -125,7 +125,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_archive_project",
+        name: "base_archive_project",
         description: "Archive an item by ID — moves from items[] to archived[] with outcome and timestamp.",
         inputSchema: {
             type: "object",
@@ -137,7 +137,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_search_projects",
+        name: "base_search_projects",
         description: "Search project items by keyword. Case-insensitive substring match across title, description, notes, and tags.",
         inputSchema: {
             type: "object",
@@ -306,17 +306,17 @@ function handleSearchProjects(args, workspacePath) {
 
 export function handleTool(name, args, workspacePath) {
     switch (name) {
-        case 'apex_list_projects':
+        case 'base_list_projects':
             return handleListProjects(args, workspacePath);
-        case 'apex_get_project':
+        case 'base_get_project':
             return handleGetProject(args, workspacePath);
-        case 'apex_add_project':
+        case 'base_add_project':
             return handleAddProject(args, workspacePath);
-        case 'apex_update_project':
+        case 'base_update_project':
             return handleUpdateProject(args, workspacePath);
-        case 'apex_archive_project':
+        case 'base_archive_project':
             return handleArchiveProject(args, workspacePath);
-        case 'apex_search_projects':
+        case 'base_search_projects':
             return handleSearchProjects(args, workspacePath);
         default:
             return null;

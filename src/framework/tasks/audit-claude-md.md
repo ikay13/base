@@ -27,7 +27,7 @@ Read the user's existing CLAUDE.md.
 Compare against BASE workspace conventions.
 
 Check for:
-- [ ] Working memory references (@.base/data/active.json, @.base/data/backlog.json, @.base/data/state.json)
+- [ ] Working memory references (@.base/data/projects.json, @.base/data/state.json)
 - [ ] Workspace structure tree (accurate to actual filesystem?)
 - [ ] Git strategy documentation
 - [ ] Tool priority declarations (LSP, etc.)

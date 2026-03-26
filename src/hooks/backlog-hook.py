@@ -24,7 +24,7 @@ BEHAVIOR_DIRECTIVE = f"""BEHAVIOR: This context is PASSIVE AWARENESS ONLY.
 Do NOT proactively mention these items unless:
   - User explicitly asks (e.g., "what's in the backlog?", "what's queued?")
   - A review_by date has passed AND user hasn't acknowledged it this session
-For details on any item, use apex_get_project(id)."""
+For details on any item, use base_get_project(id)."""
 
 PRIORITY_ORDER = ["high", "medium", "low"]
 

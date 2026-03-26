@@ -16,7 +16,7 @@ As an operator who has completed their identity profile, I want to define the st
 
 <step name="ground_in_profile" priority="first">
 <if condition="previous initiatives exist">
-Pull current initiatives via apex_list_projects(type="initiative") and display them:
+Pull current initiatives via base_list_projects(type="initiative") and display them:
 
 > ## Current Initiatives
 >
@@ -69,7 +69,7 @@ Present all initiatives:
 > **[3] Edit one**
 > **[4] Remove one**
 
-When locked, write each initiative via apex_add_project(type="initiative") with full metadata.
+When locked, write each initiative via base_add_project(type="initiative") with full metadata.
 
 **Wait for response.**
 </step>
@@ -93,6 +93,6 @@ Initiatives created in Apex via MCP. Each has title, description, priority, cate
 <acceptance-criteria>
 - [ ] Each initiative is a measurable goal, not an entity
 - [ ] Each initiative connects to the North Star
-- [ ] Written via apex_add_project MCP, not manual file edits
+- [ ] Written via base_add_project MCP, not manual file edits
 - [ ] Operator approved the final set
 </acceptance-criteria>

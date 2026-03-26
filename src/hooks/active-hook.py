@@ -24,7 +24,7 @@ BEHAVIOR_DIRECTIVE = f"""BEHAVIOR: This context is PASSIVE AWARENESS ONLY.
 Do NOT proactively mention these items unless:
   - User explicitly asks (e.g., "what should I work on?", "what's next?")
   - A deadline is within 24 hours AND user hasn't acknowledged it this session
-For details on any item, use apex_get_project(id)."""
+For details on any item, use base_get_project(id)."""
 
 PRIORITY_ORDER = ["urgent", "high", "medium", "low", "ongoing", "deferred"]
 

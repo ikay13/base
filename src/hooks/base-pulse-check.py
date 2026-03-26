@@ -28,7 +28,7 @@ def recalculate_drift(state):
     """Recalculate drift indicators from live data and update state.json.
 
     This ensures drift score is always fresh on session start, not stale
-    from the last time apex_update_drift was manually called.
+    from the last time base_update_drift was manually called.
     """
     now = date.today()
 

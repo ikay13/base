@@ -1,5 +1,5 @@
 /**
- * APEX Entities — CRUD for entities.json
+ * BASE Entities — CRUD for entities.json
  * People and organizations with relational links to projects
  */
 
@@ -61,7 +61,7 @@ function formatTimestamp() {
 
 export const TOOLS = [
     {
-        name: "apex_list_entities",
+        name: "base_list_entities",
         description: "List all entities with optional type filter (person/organization).",
         inputSchema: {
             type: "object",
@@ -72,7 +72,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_add_entity",
+        name: "base_add_entity",
         description: "Add a new person or organization entity. Auto-generates ENT-NNN ID.",
         inputSchema: {
             type: "object",
@@ -85,7 +85,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_update_entity",
+        name: "base_update_entity",
         description: "Update an entity's fields by ID. Shallow merge — only specified fields updated.",
         inputSchema: {
             type: "object",
@@ -97,7 +97,7 @@ export const TOOLS = [
         }
     },
     {
-        name: "apex_link_entity",
+        name: "base_link_entity",
         description: "Add a relation between an entity and a project item. Avoids duplicate relations.",
         inputSchema: {
             type: "object",
@@ -214,13 +214,13 @@ function handleLinkEntity(args, workspacePath) {
 
 export function handleTool(name, args, workspacePath) {
     switch (name) {
-        case 'apex_list_entities':
+        case 'base_list_entities':
             return handleListEntities(args, workspacePath);
-        case 'apex_add_entity':
+        case 'base_add_entity':
             return handleAddEntity(args, workspacePath);
-        case 'apex_update_entity':
+        case 'base_update_entity':
             return handleUpdateEntity(args, workspacePath);
-        case 'apex_link_entity':
+        case 'base_link_entity':
             return handleLinkEntity(args, workspacePath);
         default:
             return null;

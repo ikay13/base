@@ -8,8 +8,6 @@
       "type": "working-memory",
       "description": "Core context documents that AI reads every session",
       "paths": [
-        ".base/data/active.json",
-        ".base/data/backlog.json",
         ".base/data/projects.json"
       ],
       "groom": "weekly",
@@ -73,39 +71,6 @@
     "staleness_threshold_days": 60,
     "max_rules_per_domain": 15,
     "last_run": null
-  },
-  "surfaces": {
-    "active": {
-      "file": "data/active.json",
-      "description": "Active work items, projects, and tasks",
-      "hook": true,
-      "silent": true,
-      "schema": {
-        "id_prefix": "ACT",
-        "required_fields": ["title", "status", "priority"],
-        "priority_levels": ["urgent", "high", "medium", "ongoing", "deferred"],
-        "status_values": ["active", "blocked", "deferred", "done", "paused"]
-      }
-    },
-    "backlog": {
-      "file": "data/backlog.json",
-      "description": "Future work queue, ideas, and deferred tasks",
-      "hook": true,
-      "silent": true,
-      "schema": {
-        "id_prefix": "BL",
-        "required_fields": ["title", "priority"],
-        "priority_levels": ["high", "medium", "low"],
-        "time_rules": {
-          "review_by": {
-            "high": 7,
-            "medium": 14,
-            "low": 30
-          },
-          "staleness_multiplier": 2
-        }
-      }
-    }
   },
   "satellites": {}
 }

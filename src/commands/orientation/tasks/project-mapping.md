@@ -16,8 +16,8 @@ As an operator with defined initiatives, I want my projects organized under the 
 
 <step name="pull_current_state" priority="first">
 Pull initiatives and projects in parallel:
-- apex_list_projects(type="initiative")
-- apex_list_projects(type="project")
+- base_list_projects(type="initiative")
+- base_list_projects(type="project")
 
 Display initiatives as target buckets, then list all projects with their current parent_id (or "unparented").
 
@@ -43,7 +43,7 @@ For each project without a parent (or with a stale/wrong parent):
 
 **Wait for response before moving to next project.**
 
-When assigned, update via apex_update_project(id, {parent_id: "INI-XXX"}).
+When assigned, update via base_update_project(id, {parent_id: "INI-XXX"}).
 </step>
 
 <step name="sync_paul_data">
@@ -51,7 +51,7 @@ For each project that has a PAUL satellite (paul.json exists in its location):
 
 1. Read the paul.json file from the project's location
 2. Update the project's paul field with current: satellite_name, location, milestone, phase, loop_position, handoff status and path
-3. Update via apex_update_project
+3. Update via base_update_project
 
 Report: "{N} PAUL satellites synced"
 </step>
@@ -97,7 +97,7 @@ All projects mapped to initiatives via Apex MCP. PAUL satellite data synced from
 
 <acceptance-criteria>
 - [ ] Every project reviewed — assigned to initiative, left unparented, or archived
-- [ ] Parent IDs set via apex_update_project MCP
+- [ ] Parent IDs set via base_update_project MCP
 - [ ] PAUL satellites synced from source paul.json files
 - [ ] Final mapping displayed and approved by operator
 </acceptance-criteria>

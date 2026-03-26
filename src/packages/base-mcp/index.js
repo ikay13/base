@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * BASE MCP — Surface CRUD Server
+ * BASE MCP — Workspace Orchestration Server
  * Builder's Automated State Engine
  *
- * Generic CRUD operations for any registered data surface.
- * Surfaces are registered in workspace.json and stored as JSON in .base/data/.
+ * Project management, entities, state tracking, operator profile, and PSMM.
+ * All data stored as JSON in .base/data/.
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -14,7 +14,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Tool group imports
-import { TOOLS as surfaceTools, handleTool as handleSurface } from './tools/surfaces.js';
 import { TOOLS as projectTools, handleTool as handleProject } from './tools/projects.js';
 import { TOOLS as stateTools, handleTool as handleState } from './tools/state.js';
 import { TOOLS as entityTools, handleTool as handleEntity } from './tools/entities.js';
@@ -37,11 +36,10 @@ function debugLog(...args) {
 // TOOL REGISTRY
 // ============================================================
 
-const ALL_TOOLS = [...surfaceTools, ...projectTools, ...stateTools, ...entityTools, ...operatorTools, ...psmmTools];
+const ALL_TOOLS = [...projectTools, ...stateTools, ...entityTools, ...operatorTools, ...psmmTools];
 
 // Build handler lookup: tool name → handler function
 const TOOL_HANDLERS = {};
-for (const tool of surfaceTools) TOOL_HANDLERS[tool.name] = handleSurface;
 for (const tool of projectTools) TOOL_HANDLERS[tool.name] = handleProject;
 for (const tool of stateTools) TOOL_HANDLERS[tool.name] = handleState;
 for (const tool of entityTools) TOOL_HANDLERS[tool.name] = handleEntity;
@@ -54,7 +52,7 @@ for (const tool of psmmTools) TOOL_HANDLERS[tool.name] = handlePsmm;
 
 const server = new Server({
     name: "base-mcp",
-    version: "1.0.0",
+    version: "2.0.0",
 }, {
     capabilities: {
         tools: {},
@@ -63,8 +61,8 @@ const server = new Server({
 
 debugLog('BASE MCP Server initialized');
 debugLog('Workspace:', WORKSPACE_PATH);
-debugLog('Tool groups: surfaces (%d), projects (%d), state (%d), entities (%d), psmm (%d)',
-    surfaceTools.length, projectTools.length, stateTools.length, entityTools.length, psmmTools.length);
+debugLog('Tool groups: projects (%d), state (%d), entities (%d), operator (%d), psmm (%d)',
+    projectTools.length, stateTools.length, entityTools.length, operatorTools.length, psmmTools.length);
 debugLog('Total tools:', ALL_TOOLS.length);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
