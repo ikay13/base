@@ -30,10 +30,11 @@ Every data surface hook MUST follow this contract:
   - Never include dynamic logic that changes based on time of day, session count, etc.
 
 === TRIGGERS ===
-Register in .claude/settings.json under UserPromptSubmit:
+Register in .claude/settings.json under UserPromptSubmit.
+Use `which python3` to detect the absolute python path for your system.
   {
     "type": "command",
-    "command": "python3 /absolute/path/to/.base/hooks/{surface}-hook.py"
+    "command": "{absolute_python3_path} /absolute/path/to/.base/hooks/{surface}-hook.py"
   }
 """
 

@@ -111,20 +111,23 @@ All hooks live in `.base/hooks/`. Session hooks are registered in `.claude/setti
 **On-demand hooks** (invoked by commands, not auto-registered):
 - apex-insights.py — workspace analytics (invoked by /apex:insights)
 
+**Python path detection (REQUIRED before registering any hooks):**
+Run `which python3` to get the user's absolute Python path (e.g. `/usr/bin/python3`, `/usr/local/bin/python3`, `/opt/homebrew/bin/python3`). Use this detected path in ALL hook registrations — never hardcode a specific python path. If `which python3` fails, warn the user and ask them to provide their python3 path.
+
 For each auto-fire hook:
 1. Check if `.base/hooks/{hook}` exists
 2. If not: copy from `~/.claude/base-framework/hooks/{hook}` (global install source)
    - If `~/.claude/base-framework/hooks/{hook}` doesn't exist either, warn:
      "BASE framework not globally installed. Run `npx base-framework --global` first, then re-run scaffold."
 3. Check `.claude/settings.json` for hook registration in `UserPromptSubmit` array
-4. If not registered: add the hook entry with absolute path to `.base/hooks/{hook}`
+4. If not registered: add the hook entry using detected python path + absolute path to `.base/hooks/{hook}`
 
 Hook registration format in settings.json:
 ```json
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "type": "command", "command": "python3 /absolute/path/.base/hooks/{hook}" }
+      { "type": "command", "command": "{detected_python3_path} /absolute/path/.base/hooks/{hook}" }
     ]
   }
 }
