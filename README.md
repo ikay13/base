@@ -115,15 +115,14 @@ A "data surface" is just a structured JSON file paired with a hook that injects 
 JSON file (your data)  →  Hook (reads + summarizes)  →  Claude knows it
 ```
 
-BASE ships with five built-in surfaces:
+BASE ships with four built-in data files:
 
-| Surface | What It Tracks |
-|---------|---------------|
-| **Active** | Current projects, tasks, blockers, deadlines, status |
-| **Backlog** | Future work, ideas, deferred items with review deadlines |
-| **Projects** | Unified project tracking with PAUL integration, categories, revenue |
+| Data | What It Tracks |
+|------|---------------|
+| **Projects** | Unified project tracking — initiatives, projects, tasks, backlog, PAUL integration, categories, revenue |
 | **Entities** | People and organizations — contacts, stakeholders, collaborators |
 | **State** | Workspace health — drift score, area statuses, groom tracking |
+| **PSMM** | Per-session meta memory — decisions, corrections, insights within a session |
 
 But you can create surfaces for anything — clients, contacts, content pipelines, API keys, whatever persistent data you want Claude to passively know about. The `/base:surface create` command walks you through it: define a schema, pick an injection format, and BASE generates the JSON file, the hook, and the wiring automatically.
 
@@ -250,11 +249,10 @@ Answering `n` skips cleanup and installs v3 alongside existing artifacts. You ca
 ├── workspace.json                      The manifest — everything is registered here
 ├── operator.json                       Operator profile — north star, values, vision, pitch
 ├── data/
-│   ├── active.json                     Active work surface
-│   ├── backlog.json                    Backlog surface
-│   ├── projects.json                   Unified project tracking
+│   ├── projects.json                   Project tracking (initiatives, projects, tasks, backlog)
 │   ├── entities.json                   People and organizations
-│   └── state.json                      Workspace health state
+│   ├── state.json                      Workspace health state
+│   └── psmm.json                       Per-session meta memory
 ├── hooks/
 │   ├── _template.py                    Hook template for creating new surfaces
 │   ├── active-hook.py                  Injects active work into Claude's context
@@ -359,31 +357,17 @@ The strategy is defined in a standalone framework file (`claude-config-alignment
 
 BASE ships one MCP server so Claude can read and write your workspace data through structured tool calls instead of raw file edits.
 
-### BASE MCP — Surfaces, Projects, Entities, Operator, State
+### BASE MCP — Projects, Entities, State, Operator, PSMM
 
-A unified interface for all workspace data. Claude can manage surfaces, track projects, maintain entities, read operator context, and check workspace state:
-
-| Tool | What It Does |
-|------|-------------|
-| `base_list_surfaces` | List all surfaces with item counts |
-| `base_get_surface` | Read all items from a surface |
-| `base_get_item` | Get one item by ID |
-| `base_add_item` | Add item (auto-generates ID, validates against schema) |
-| `base_update_item` | Update specific fields (preserves everything else) |
-| `base_archive_item` | Move item to archive with timestamp |
-| `base_search` | Search across one or all surfaces by keyword |
-
-Additional tool modules for first-class data:
+A unified interface for all workspace data. 20 tools across 5 modules:
 
 | Module | Tools | What They Do |
 |--------|-------|-------------|
-| **Projects** | `base_get_projects`, `base_update_project` | Unified project tracking with PAUL integration |
-| **Entities** | `base_get_entities`, `base_add_entity`, `base_update_entity` | People and organization management |
-| **Operator** | `base_get_operator` | Read operator profile (north star, values, vision) |
-| **State** | `base_get_state`, `base_update_state` | Workspace health and drift tracking |
+| **Projects** | `base_list_projects`, `base_get_project`, `base_add_project`, `base_update_project`, `base_archive_project`, `base_search_projects` | Hierarchy-aware CRUD — initiatives, projects, tasks. Auto-ID by type (INI/PRJ/TSK). Filter by status, priority, parent, category. |
+| **Entities** | `base_list_entities`, `base_add_entity`, `base_update_entity`, `base_link_entity` | People and organization management with relational links to projects |
+| **State** | `base_get_state`, `base_update_drift`, `base_record_groom`, `base_update_area` | Workspace health, drift tracking, groom scheduling |
+| **Operator** | `base_get_operator`, `base_update_operator` | Read/update operator profile (north star, values, vision, pitch) |
 | **PSMM** | `base_psmm_log`, `base_psmm_get`, `base_psmm_list`, `base_psmm_clean` | Per-session meta memory — log and manage session moments |
-
-When you create a new surface, the MCP server auto-discovers it from `workspace.json`. No code changes needed.
 
 ### CARL Integration
 
