@@ -91,37 +91,106 @@ def sync_to_workspace(satellites: dict, paul_data: dict, name: str) -> bool:
     return changed
 
 
-def sync_to_projects(paul_data: dict, name: str, projects_data: dict) -> bool:
-    """Sync paul.json state to matching project in projects.json. Returns True if changed."""
-    for item in projects_data.get("items", []):
+def build_paul_field(paul_data: dict, name: str, sat_path: str) -> dict:
+    """Build a standardized paul field from paul.json data."""
+    phase = paul_data.get("phase", {})
+    loop = paul_data.get("loop", {})
+    handoff = paul_data.get("handoff", {})
+    milestone = paul_data.get("milestone", {})
+    timestamps = paul_data.get("timestamps", {})
+
+    completed = phase.get("number", 1) if phase.get("status") == "complete" else max(0, (phase.get("number", 1) or 1) - 1)
+
+    return {
+        "is_paul_project": True,
+        "satellite_name": name,
+        "location": sat_path.rstrip("/") + "/",
+        "milestone": milestone.get("name"),
+        "phase": phase.get("name"),
+        "phase_name": phase.get("name"),
+        "loop_position": loop.get("position"),
+        "last_update": timestamps.get("updated_at"),
+        "handoff": handoff.get("present", False),
+        "handoff_path": handoff.get("path"),
+        "completed_phases": completed,
+        "total_phases": phase.get("total"),
+        "last_plan_completed_at": paul_data.get("last_plan_completed_at"),
+    }
+
+
+def find_project_by_path(items: list, sat_path: str):
+    """Find project by location path (flexible trailing slash matching)."""
+    normalized = sat_path.rstrip("/")
+    for item in items:
+        loc = (item.get("location") or "").rstrip("/")
+        if loc == normalized:
+            return item
+    return None
+
+
+def sync_to_projects(paul_data: dict, name: str, sat_path: str, projects_data: dict) -> str:
+    """Sync paul.json state to matching project in projects.json.
+    Returns: 'updated', 'created', or 'none'."""
+    items = projects_data.get("items", [])
+
+    # Match by satellite_name first, then by path
+    project = None
+    for item in items:
         paul_field = item.get("paul")
-        if not paul_field or paul_field.get("satellite_name") != name:
-            continue
+        if paul_field and paul_field.get("satellite_name") == name:
+            project = item
+            break
+    if not project:
+        project = find_project_by_path(items, sat_path)
 
-        # Found matching project — update paul field
-        phase = paul_data.get("phase", {})
-        loop = paul_data.get("loop", {})
-        handoff = paul_data.get("handoff", {})
-        timestamps = paul_data.get("timestamps", {})
+    paul_field = build_paul_field(paul_data, name, sat_path)
 
-        paul_field["phase"] = phase.get("name")
-        paul_field["loop_position"] = loop.get("position")
-        paul_field["last_update"] = timestamps.get("updated_at")
+    if project:
+        # Update existing — merge paul field
+        if not project.get("paul"):
+            project["paul"] = {}
+        project["paul"].update(paul_field)
+        project["updated_at"] = datetime.now().isoformat()
+        return "updated"
 
-        # Calculate completed phases
-        if phase.get("status") == "complete":
-            paul_field["completed_phases"] = phase.get("number")
-        else:
-            paul_field["completed_phases"] = max(0, (phase.get("number", 1) or 1) - 1)
+    # Auto-create project entry
+    max_num = 0
+    for item in items:
+        match = (item.get("id") or "").replace("PRJ-", "")
+        try:
+            num = int(match)
+            if num > max_num:
+                max_num = num
+        except ValueError:
+            pass
 
-        # Copy enriched fields
-        paul_field["last_plan_completed_at"] = paul_data.get("last_plan_completed_at")
-        paul_field["handoff"] = handoff.get("present", False)
+    new_id = f"PRJ-{max_num + 1:03d}"
+    title = paul_data.get("project", {}).get("title") or name
+    now = datetime.now().isoformat()
 
-        item["updated_at"] = datetime.now().isoformat()
-        return True
-
-    return False
+    items.append({
+        "id": new_id,
+        "title": title,
+        "type": "project",
+        "parent_id": None,
+        "status": "in_progress",
+        "priority": "medium",
+        "category": "internal",
+        "assignees": [],
+        "start_date": None,
+        "due_date": None,
+        "created_at": now,
+        "updated_at": now,
+        "location": sat_path.rstrip("/") + "/",
+        "blocked_by": None,
+        "next": None,
+        "notes": [],
+        "tags": [],
+        "paul": paul_field,
+        "relations": [],
+        "description": None,
+    })
+    return "created"
 
 
 def main():
@@ -209,8 +278,11 @@ def main():
             workspace_changed = True
 
         # Sync to projects.json
-        if projects_data and sync_to_projects(paul_data, name, projects_data):
-            projects_changed = True
+        if projects_data:
+            sat_path = satellites.get(name, {}).get("path", "")
+            result = sync_to_projects(paul_data, name, sat_path, projects_data)
+            if result in ("updated", "created"):
+                projects_changed = True
 
     # Write workspace.json if changed
     if workspace_changed:
