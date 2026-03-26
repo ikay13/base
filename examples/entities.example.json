@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "last_modified": "2026-03-19T16:00:00-05:00",
+  "entities": [
+    {
+      "id": "ENT-001",
+      "name": "Chris Kahler",
+      "type": "person",
+      "role": "owner",
+      "relations": [
+        { "project_id": "INI-001", "relationship": "owner" },
+        { "project_id": "INI-002", "relationship": "owner" },
+        { "project_id": "INI-003", "relationship": "owner" }
+      ],
+      "notes": [],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-002",
+      "name": "Charlie",
+      "type": "person",
+      "role": "partner",
+      "relations": [
+        { "project_id": "INI-001", "relationship": "partner" },
+        { "project_id": "PRJ-001", "relationship": "partner" },
+        { "project_id": "PRJ-002", "relationship": "partner" },
+        { "project_id": "PRJ-004", "relationship": "partner" }
+      ],
+      "notes": [
+        {
+          "text": "Business partner at C&C Strategic. Default DM contact on Slack.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-003",
+      "name": "Samer",
+      "type": "person",
+      "role": "team member",
+      "relations": [],
+      "notes": [
+        {
+          "text": "Team member / future hire potential. Terminal-only Claude Code user. Had first 1-on-1 March 13.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-004",
+      "name": "Thomas",
+      "type": "person",
+      "role": "client",
+      "relations": [
+        { "project_id": "PRJ-004", "relationship": "stakeholder" }
+      ],
+      "notes": [
+        {
+          "text": "Occupancy Lift — assisted living communities. $5k setup + performance split.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-005",
+      "name": "Bo Rosenblat",
+      "type": "person",
+      "role": "client",
+      "relations": [
+        { "project_id": "PRJ-003", "relationship": "client" }
+      ],
+      "notes": [
+        {
+          "text": "Calford.ai — Hunter Exotics subcontract. Needs to add Chris as GitHub collaborator.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-006",
+      "name": "Extendly",
+      "type": "organization",
+      "role": "employer",
+      "relations": [],
+      "notes": [
+        {
+          "text": "W2 employer. COO Zak sponsored coaching with Amee. Chris may diverge long-term.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-007",
+      "name": "C&C Strategic Consulting",
+      "type": "organization",
+      "role": "owner",
+      "relations": [
+        { "project_id": "INI-001", "relationship": "operating entity" }
+      ],
+      "notes": [],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    },
+    {
+      "id": "ENT-008",
+      "name": "Calford.ai",
+      "type": "organization",
+      "role": "client",
+      "relations": [
+        { "project_id": "PRJ-003", "relationship": "contracting entity" }
+      ],
+      "notes": [
+        {
+          "text": "Bo Rosenblat's company. Hunter Exotics subcontract comes through Calford.",
+          "timestamp": "2026-03-19T16:00:00-05:00"
+        }
+      ],
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00"
+    }
+  ]
+}

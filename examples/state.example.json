@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "workspace": "chris-ai-systems",
+  "last_modified": "2026-03-19T16:00:00-05:00",
+  "groom": {
+    "cadence": "weekly",
+    "day": "friday",
+    "last_groom": "2026-03-16",
+    "next_groom_due": "2026-03-20"
+  },
+  "drift": {
+    "score": 51,
+    "indicators": {
+      "active_age_days": 3,
+      "backlog_age_days": 3,
+      "backlog_past_review": 0,
+      "orphaned_sessions": 0,
+      "untracked_root_files": 0,
+      "stale_satellites": 0
+    }
+  },
+  "areas": {
+    "working-memory": {
+      "type": "working-memory",
+      "description": "Core context documents that AI reads every session",
+      "paths": [".base/data/projects.json"],
+      "groom_schedule": "weekly",
+      "last_touched": "2026-03-16",
+      "groom_due": "2026-03-20",
+      "status": "current",
+      "audit": {
+        "strategy": "staleness",
+        "config": { "threshold_days": 7 }
+      }
+    },
+    "projects": {
+      "type": "directory",
+      "description": "Project documentation and planning",
+      "paths": ["projects/"],
+      "groom_schedule": "monthly",
+      "last_touched": "2026-03-16",
+      "groom_due": "2026-04-16",
+      "status": "current",
+      "audit": {
+        "strategy": "classify",
+        "config": { "states": ["active", "archive", "delete"], "archive_path": "projects/_archive/" }
+      }
+    },
+    "clients": {
+      "type": "directory",
+      "description": "Client project folders and deliverables",
+      "paths": ["clients/"],
+      "groom_schedule": "monthly",
+      "last_touched": "2026-03-16",
+      "groom_due": "2026-04-16",
+      "status": "stale",
+      "audit": {
+        "strategy": "classify",
+        "config": { "states": ["active", "archive", "delete"] }
+      }
+    },
+    "tools": {
+      "type": "config-cross-ref",
+      "description": "MCP servers, personal tools, shareable tools",
+      "paths": ["tools/"],
+      "groom_schedule": "monthly",
+      "last_touched": "2026-03-16",
+      "groom_due": "2026-04-16",
+      "status": "current",
+      "audit": {
+        "strategy": "cross-reference",
+        "config": { "config_file": ".mcp.json" }
+      }
+    },
+    "system-layer": {
+      "type": "system-layer",
+      "description": "Claude Code commands, hooks, skills, CARL domains",
+      "paths": [".claude/commands/", ".claude/hooks/", ".claude/skills/", ".carl/"],
+      "groom_schedule": "monthly",
+      "last_touched": "2026-03-16",
+      "groom_due": "2026-04-16",
+      "status": "current",
+      "audit": {
+        "strategy": "dead-code",
+        "config": { "reference_check": true }
+      }
+    },
+    "content": {
+      "type": "directory",
+      "description": "Shortform and longform content pipeline",
+      "paths": ["content/"],
+      "groom_schedule": "bi-weekly",
+      "last_touched": "2026-03-15",
+      "groom_due": "2026-03-29",
+      "status": "stale",
+      "audit": {
+        "strategy": "pipeline-status",
+        "config": {
+          "stages": ["ideation", "scripts", "recorded", "scheduled", "published"],
+          "stuck_threshold_days": 14
+        }
+      }
+    }
+  },
+  "satellites": {
+    "aegis": {
+      "path": "apps/aegis",
+      "engine": "paul",
+      "state": "apps/aegis/.paul/STATE.md",
+      "registered": "2026-03-15",
+      "groom_check": true,
+      "last_activity": null
+    },
+    "casegate-v2": {
+      "path": "apps/casegate-v2",
+      "engine": "paul",
+      "state": "apps/casegate-v2/.paul/STATE.md",
+      "registered": "2026-03-17",
+      "groom_check": true,
+      "last_activity": "2026-03-17T14:24:00-05:00"
+    },
+    "base": {
+      "path": "apps/base",
+      "engine": "paul",
+      "state": "apps/base/.paul/STATE.md",
+      "registered": "2026-03-17",
+      "groom_check": true,
+      "last_activity": null
+    },
+    "apex": {
+      "path": "apps/apex",
+      "engine": "paul",
+      "state": "apps/apex/.paul/STATE.md",
+      "registered": "2026-03-19",
+      "groom_check": true,
+      "last_activity": "2026-03-19T16:00:00-05:00"
+    },
+    "seed": {
+      "path": "apps/seed",
+      "engine": "paul",
+      "state": "apps/seed/.paul/STATE.md",
+      "registered": "2026-03-18",
+      "groom_check": true,
+      "last_activity": "2026-03-18T13:16:00-05:00"
+    },
+    "hunter-exotics": {
+      "path": "apps/hunter-exotics",
+      "engine": "paul",
+      "state": "apps/hunter-exotics/.paul/STATE.md",
+      "registered": "2026-03-17",
+      "groom_check": true,
+      "last_activity": "2026-03-17T20:43:28Z"
+    },
+    "paul-framework": {
+      "path": "apps/paul-framework",
+      "engine": "paul",
+      "state": "apps/paul-framework/.paul/STATE.md",
+      "registered": "2026-03-15",
+      "groom_check": true,
+      "last_activity": null
+    },
+    "skillsmith": {
+      "path": "apps/skillsmith",
+      "engine": "paul",
+      "state": "apps/skillsmith/.paul/STATE.md",
+      "registered": "2026-03-15",
+      "groom_check": true,
+      "last_activity": null
+    }
+  },
+  "carl_hygiene": {
+    "proactive": true,
+    "cadence": "monthly",
+    "staleness_threshold_days": 60,
+    "max_rules_per_domain": 15,
+    "last_run": null
+  },
+  "last_audit": {
+    "date": "2026-03-15",
+    "phases": 6,
+    "outcome": "Full workspace optimization. 3 dead projects deleted, 10 archived, root cleaned, tools audited, system layer pruned. 140 stale session files removed."
+  }
+}

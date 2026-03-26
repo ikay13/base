@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "last_modified": "2026-03-19T16:25:00-05:00",
+  "config": {
+    "devmode": true,
+    "post_compact_gate": true,
+    "global_exclude": []
+  },
+  "domains": {
+    "GLOBAL": {
+      "state": "active",
+      "always_on": true,
+      "recall": ["universal"],
+      "exclude": [],
+      "rules": [
+        {
+          "id": 0,
+          "text": "GLOBAL rules apply universally to all sessions and contexts. These are foundational behaviors that should never be disabled.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 1,
+          "text": "Use absolute paths in all programming to prevent path traversal attacks",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 2,
+          "text": "Use relative paths when referencing files to the user for clickable navigation",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 3,
+          "text": "Batch tool calls when possible, sequential only for dependencies",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 4,
+          "text": "NEVER mark tasks complete without validating functionality - test everything, require proof",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 5,
+          "text": "Check environment date context before any time/calendar/briefing operations",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 6,
+          "text": "Use TodoWrite tool to track complex multi-step tasks",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 7,
+          "text": "Obey ~/.claude/CLAUDE.md and active files (PRINCIPLES.md, RULES.md, WORKFLOWS.md) with zero deviation",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 8,
+          "text": "Before writing ANY external-facing content (Skool posts, comments, DMs, LinkedIn, emails, client comms), read ~/.claude/skills/humanizer/SKILL.md AND ~/.claude/skills/humanizer/VOICE.md. SKILL.md defines what to avoid. VOICE.md defines how Chris sounds. Apply both preemptively. Write human from the start.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 9,
+          "text": "LSP FIRST. ALWAYS. When navigating code (symbols, definitions, references, structure), use LSP before grep, glob, bash, or Read. LSP is faster, more accurate, and cheaper on tokens. Only fall back to grep/glob for non-code text search or regex patterns. This is NON-NEGOTIABLE.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 10,
+          "text": "Dynamic rules go in .env.drl.* files (V2) or .env.claude (V1) - always check these first",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 11,
+          "text": "When <base-pulse> is present in context: If drift score is 0, stay silent. If drift score is 1-14, briefly note stale areas at session start. If drift score is 15+, proactively recommend grooming before other work.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 12,
+          "text": "PSMM (Per-Session Meta Memory) keeps session context hot across long 1M-window sessions. When a significant meta moment occurs, use carl_psmm_log(session_id, type, text) where type is DECISION|CORRECTION|SHIFT|INSIGHT|COMMITMENT.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 13,
+          "text": "When the user expresses an action item, to-do, or work intent in natural language, ensure it gets tracked. If immediate work, confirm it's in ACTIVE. If future work, ask: Want me to add that to the backlog?",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 14,
+          "text": "When user invokes a BASE workflow in natural language, MUST read the corresponding task file FIRST and follow every step. Do not execute from memory.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "psmm"
+        }
+      ],
+      "decisions": [
+        {
+          "id": "global-001",
+          "decision": "Skool community brand name: TITAN — Tactical Intelligence Tech Automation Network. Standalone name, no qualifier.",
+          "rationale": "Follows established naming convention (CARL, PAUL, AEGIS): sounds like a regular word, is a meaningful acronym, has mythological weight.",
+          "date": "2026-03-04",
+          "source": "manual",
+          "recall": ["titan", "skool", "community", "brand", "naming"],
+          "status": "active"
+        },
+        {
+          "id": "global-002",
+          "decision": "BASE satellite detection hook fires on session start, scans for .paul/paul.json files across workspace, auto-registers new satellites in workspace.json.",
+          "rationale": "Session-start hook ensures workspace.json satellites are always current without manual registration.",
+          "date": "2026-03-17",
+          "source": "manual",
+          "recall": ["satellite detection", "session start hook", "auto register"],
+          "status": "active"
+        },
+        {
+          "id": "global-003",
+          "decision": "BASE groom health-checks PAUL satellite projects with configurable per-project boolean (default: active).",
+          "rationale": "Configurable default-on respects both hygiene and autonomy.",
+          "date": "2026-03-17",
+          "source": "manual",
+          "recall": ["base groom", "satellite health", "groom satellites"],
+          "status": "active"
+        },
+        {
+          "id": "global-004",
+          "decision": "BASE framework files move to global ~/.claude/base-framework/. Data stays in .base/ per workspace.",
+          "rationale": "Supports multiple workspaces per user. Framework is user-level, data is workspace-level.",
+          "date": "2026-03-17",
+          "source": "manual",
+          "recall": ["base global", "base framework", "multiple workspaces"],
+          "status": "active"
+        },
+        {
+          "id": "global-005",
+          "decision": "BASE framework files (task files, templates, principles) move to global ~/.claude/base-framework/. Data stays in .base/ per workspace. Framework is user-level, data is workspace-level.",
+          "rationale": "Supports multiple workspaces per user without duplicating framework files. Mirrors PAUL's global framework + local data pattern.",
+          "date": "2026-03-17",
+          "source": "manual",
+          "recall": ["base framework global migration", "base framework location"],
+          "status": "active"
+        }
+      ]
+    },
+    "DEVELOPMENT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["write code for", "fix this bug", "implement this feature", "build this component", "refactor this", "add this endpoint", "create this modal", "programming task", "code review"],
+      "exclude": [],
+      "rules": [
+        {
+          "id": 0,
+          "text": "DEVELOPMENT rules apply when user is writing code, building features, working with CSS, creating MCP servers, or doing any programming work.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 1,
+          "text": "NEVER EVER EVER CREATE A BROWSER ALERT DIALOG FOR APPLICATION DEVELOPMENT, ALWAYS USE A MODAL EXPERIENCE.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 2,
+          "text": "Before CSS changes, verify actual element classes/IDs in HTML/JS markup first - never assume",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 3,
+          "text": "MCP servers: follow bridge protocol pattern in tools/mcp-servers/production/ - reference skool-bridge for structure",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 4,
+          "text": "Auto-read WSL paths with image extensions using Read tool and filepath ~/docs/greenshot/",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 5,
+          "text": "Docker patterns: Compose files in docker/compose/, Dockerfile templates in docker/templates/, individual apps contain own Docker configs",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 6,
+          "text": "CRITICAL: NEVER use CSS linear-gradient for dark section backgrounds (causes banding). Use Motion AnimatedBackground component with floating orbs.",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        },
+        {
+          "id": 7,
+          "text": "CRITICAL for React 19+: ALWAYS use motion package, NOT framer-motion. Install: npm install motion. Import: import { motion } from \"motion/react\"",
+          "added": "2026-03-16",
+          "last_reviewed": "2026-03-16",
+          "source": "manual"
+        }
+      ],
+      "decisions": []
+    },
+    "SKOOL": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["check skool", "skool notifications", "reply on skool", "skool community", "skool engagement", "skoolboss"],
+      "exclude": [],
+      "rules": [],
+      "decisions": []
+    }
+  },
+  "staging": []
+}

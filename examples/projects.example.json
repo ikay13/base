@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "workspace": "chris-ai-systems",
+  "last_modified": "2026-03-19T16:00:00-05:00",
+  "categories": ["saas", "agency", "community", "internal", "content", "personal"],
+  "items": [
+    {
+      "id": "INI-001",
+      "title": "C&C Strategic Consulting",
+      "type": "initiative",
+      "parent_id": null,
+      "status": "in_progress",
+      "priority": "high",
+      "category": "agency",
+      "assignees": ["ENT-001", "ENT-002"],
+      "start_date": "2025-12-01",
+      "due_date": null,
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00",
+      "location": null,
+      "blocked_by": null,
+      "next": null,
+      "notes": [],
+      "tags": ["business", "partnership"],
+      "paul": null,
+      "relations": [
+        { "entity_id": "ENT-001", "relationship": "owner" },
+        { "entity_id": "ENT-002", "relationship": "partner" }
+      ],
+      "description": "AI implementation for agencies and local businesses. GoHighLevel CRM setup and automation. Productized AI agent deployments."
+    },
+    {
+      "id": "INI-002",
+      "title": "Chris AI Systems (Personal Brand)",
+      "type": "initiative",
+      "parent_id": null,
+      "status": "in_progress",
+      "priority": "high",
+      "category": "content",
+      "assignees": ["ENT-001"],
+      "start_date": "2025-12-01",
+      "due_date": null,
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00",
+      "location": null,
+      "blocked_by": null,
+      "next": null,
+      "notes": [],
+      "tags": ["brand", "content"],
+      "paul": null,
+      "relations": [
+        { "entity_id": "ENT-001", "relationship": "owner" }
+      ],
+      "description": "YouTube, Instagram, TikTok, FB Reels, Skool community, courses. Content funnel: Shortform → Longform → Skool → Courses."
+    },
+    {
+      "id": "INI-003",
+      "title": "APEX Ecosystem",
+      "type": "initiative",
+      "parent_id": null,
+      "status": "in_progress",
+      "priority": "ongoing",
+      "category": "internal",
+      "assignees": ["ENT-001"],
+      "start_date": "2026-03-19",
+      "due_date": null,
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00",
+      "location": "apps/apex/",
+      "blocked_by": null,
+      "next": "Phase 1 — JSON Schema Design",
+      "notes": [],
+      "tags": ["base", "carl", "paul", "seed", "ecosystem"],
+      "paul": {
+        "is_paul_project": true,
+        "satellite_name": "apex",
+        "milestone": "v0.1 Foundation",
+        "phase": "01-json-schema-design",
+        "loop_position": "PLAN",
+        "last_update": "2026-03-19T16:00:00-05:00",
+        "total_phases": 7,
+        "completed_phases": 0,
+        "total_plans_completed": 0,
+        "total_time_hours": null
+      },
+      "relations": [],
+      "description": "Unified ecosystem governance — SEED + PAUL + CARL + BASE as integrated package."
+    },
+    {
+      "id": "PRJ-001",
+      "title": "Skool Recalibration — CC Strategic AI",
+      "type": "project",
+      "parent_id": "INI-002",
+      "status": "blocked",
+      "priority": "urgent",
+      "category": "community",
+      "assignees": ["ENT-001", "ENT-002"],
+      "start_date": "2026-03-12",
+      "due_date": "2026-04-12",
+      "created_at": "2026-03-17T10:48:00-05:00",
+      "updated_at": "2026-03-17T10:48:00-05:00",
+      "location": "projects/skool-recalibration/",
+      "blocked_by": "Charlie review of strategy doc",
+      "next": "Deploy about page copy, generate course thumbnails, create course shells in Skool, begin 'From Zero to Dangerous' content",
+      "notes": [
+        {
+          "text": "Full strategy created March 12-14. 3-tier structure (Free/Premium $97/Plus $997), 9-course architecture. This is the #1 revenue play.",
+          "author": null,
+          "timestamp": "2026-03-17T10:48:00-05:00"
+        }
+      ],
+      "tags": ["skool", "course", "revenue"],
+      "paul": null,
+      "relations": [
+        { "entity_id": "ENT-002", "relationship": "partner" }
+      ],
+      "description": null
+    },
+    {
+      "id": "PRJ-002",
+      "title": "CaseGate - Legal Intake SaaS",
+      "type": "project",
+      "parent_id": "INI-001",
+      "status": "in_review",
+      "priority": "high",
+      "category": "saas",
+      "assignees": ["ENT-001", "ENT-002"],
+      "start_date": "2025-12-15",
+      "due_date": null,
+      "created_at": "2026-03-17T10:48:00-05:00",
+      "updated_at": "2026-03-17T10:48:00-05:00",
+      "location": "apps/casegate-v2/",
+      "blocked_by": "UAT completion, email setup verification",
+      "next": "Charlie finishing UAT, possible Cloudflare email config tweaks",
+      "notes": [
+        {
+          "text": "LLC formed with Charlie + third partner. AI analysis develops fit scores based on firm-specific playbooks/criteria.",
+          "author": null,
+          "timestamp": "2026-03-17T10:48:00-05:00"
+        }
+      ],
+      "tags": ["saas", "legal", "ai"],
+      "paul": {
+        "is_paul_project": true,
+        "satellite_name": "casegate-v2",
+        "milestone": null,
+        "phase": null,
+        "loop_position": null,
+        "last_update": "2026-03-17T14:24:00-05:00",
+        "total_phases": null,
+        "completed_phases": null,
+        "total_plans_completed": null,
+        "total_time_hours": null
+      },
+      "relations": [
+        { "entity_id": "ENT-002", "relationship": "partner" }
+      ],
+      "description": null
+    },
+    {
+      "id": "PRJ-003",
+      "title": "Hunter Exotics",
+      "type": "project",
+      "parent_id": "INI-001",
+      "status": "blocked",
+      "priority": "high",
+      "category": "agency",
+      "assignees": ["ENT-001"],
+      "start_date": "2026-01-15",
+      "due_date": null,
+      "created_at": "2026-03-17T10:48:00-05:00",
+      "updated_at": "2026-03-17T10:48:00-05:00",
+      "location": "apps/hunter-exotics/",
+      "blocked_by": "Bo needs to add Chris as collaborator on their GitHub repo",
+      "next": "Build in-app user guides, then fork to Bo's GitHub and deploy to their Railway",
+      "notes": [],
+      "tags": ["client", "subcontract"],
+      "paul": {
+        "is_paul_project": true,
+        "satellite_name": "hunter-exotics",
+        "milestone": null,
+        "phase": null,
+        "loop_position": null,
+        "last_update": "2026-03-17T20:43:28Z",
+        "total_phases": null,
+        "completed_phases": null,
+        "total_plans_completed": null,
+        "total_time_hours": null
+      },
+      "relations": [
+        { "entity_id": "ENT-005", "relationship": "client" },
+        { "entity_id": "ENT-008", "relationship": "client" }
+      ],
+      "description": "Exotic car scraper — subcontract via Calford.ai"
+    },
+    {
+      "id": "PRJ-004",
+      "title": "Occupancy Lift",
+      "type": "project",
+      "parent_id": "INI-001",
+      "status": "blocked",
+      "priority": "high",
+      "category": "agency",
+      "assignees": ["ENT-001", "ENT-002"],
+      "start_date": "2026-03-01",
+      "due_date": null,
+      "created_at": "2026-03-17T10:48:00-05:00",
+      "updated_at": "2026-03-17T10:48:00-05:00",
+      "location": "clients/occupancylift/",
+      "blocked_by": "Wrong user access level — can't do real work until upgraded",
+      "next": "Thomas needs to upgrade Chris + Charlie to agency admin in GHL",
+      "notes": [
+        {
+          "text": "$5k setup fee paid + performance split on closed deals. Services assisted living communities.",
+          "author": null,
+          "timestamp": "2026-03-17T10:48:00-05:00"
+        }
+      ],
+      "tags": ["client", "ghl"],
+      "paul": null,
+      "relations": [
+        { "entity_id": "ENT-004", "relationship": "client" }
+      ],
+      "description": null
+    },
+    {
+      "id": "PRJ-005",
+      "title": "Shortform Content Launch",
+      "type": "project",
+      "parent_id": "INI-002",
+      "status": "in_progress",
+      "priority": "urgent",
+      "category": "content",
+      "assignees": ["ENT-001"],
+      "start_date": "2026-03-15",
+      "due_date": null,
+      "created_at": "2026-03-17T10:48:00-05:00",
+      "updated_at": "2026-03-17T10:48:00-05:00",
+      "location": "content/shortform/",
+      "blocked_by": null,
+      "next": "Maintain posting cadence, build consistency muscle",
+      "notes": [],
+      "tags": ["content", "social"],
+      "paul": null,
+      "relations": [],
+      "description": "Instagram, TikTok, YT Shorts, FB Reels — feeds Skool funnel"
+    },
+    {
+      "id": "TSK-001",
+      "title": "Complete UAT testing",
+      "type": "task",
+      "parent_id": "PRJ-002",
+      "status": "in_progress",
+      "priority": "high",
+      "category": "saas",
+      "assignees": ["ENT-002"],
+      "start_date": "2026-03-10",
+      "due_date": null,
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00",
+      "location": "apps/casegate-v2/UAT-ISSUES.md",
+      "blocked_by": null,
+      "next": "Work through FR-001 through FR-004",
+      "notes": [],
+      "tags": ["uat"],
+      "paul": null,
+      "relations": [
+        { "entity_id": "ENT-002", "relationship": "assignee" }
+      ],
+      "description": null
+    },
+    {
+      "id": "TSK-002",
+      "title": "Verify email setup (Cloudflare)",
+      "type": "task",
+      "parent_id": "PRJ-002",
+      "status": "todo",
+      "priority": "high",
+      "category": "saas",
+      "assignees": ["ENT-001"],
+      "start_date": null,
+      "due_date": null,
+      "created_at": "2026-03-19T16:00:00-05:00",
+      "updated_at": "2026-03-19T16:00:00-05:00",
+      "location": null,
+      "blocked_by": null,
+      "next": null,
+      "notes": [],
+      "tags": ["uat", "email"],
+      "paul": null,
+      "relations": [],
+      "description": null
+    }
+  ],
+  "archived": [
+    {
+      "id": "ARC-001",
+      "title": "Extendly Webinar #1",
+      "outcome": "Shipped",
+      "date": "2026-01-21",
+      "archived_at": "2026-03-17T10:48:00-05:00"
+    },
+    {
+      "id": "ARC-002",
+      "title": "Extendly Webinar #2",
+      "outcome": "Shipped",
+      "date": "2026-02-25",
+      "archived_at": "2026-03-17T10:48:00-05:00"
+    },
+    {
+      "id": "ARC-003",
+      "title": "Workspace 6-Phase Cleanup",
+      "outcome": "Complete",
+      "date": "2026-03-15",
+      "archived_at": "2026-03-17T10:48:00-05:00"
+    }
+  ]
+}
