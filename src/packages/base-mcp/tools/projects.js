@@ -5,6 +5,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { validateSurface } from './validate.js';
 
 function debugLog(...args) {
     console.error('[BASE:projects]', new Date().toISOString(), ...args);
@@ -36,6 +37,7 @@ function readProjects(workspacePath) {
 function writeProjects(workspacePath, data) {
     const filepath = getProjectsPath(workspacePath);
     data.last_modified = new Date().toISOString();
+    validateSurface('projects', data);
     writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf-8');
 }
 

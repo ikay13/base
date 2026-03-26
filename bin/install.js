@@ -98,15 +98,18 @@ if (hasHelp) {
 
   ${yellow}What gets installed:${reset}
     ${cyan}Commands (--global or --local):${reset}
-      commands/base/       - Slash commands (/base:surface-create, etc.)
+      commands/base/       - Slash commands (/base:surface-create, /base:orientation, etc.)
       skills/base/         - Skill framework (tasks, templates, context)
 
     ${cyan}Workspace (--workspace):${reset}
       .base/data/          - JSON data surfaces (active, backlog, projects, entities, state)
       .base/hooks/         - All hooks (surface + session + command)
       .base/base-mcp/      - BASE MCP server (npm install auto-runs)
+      .base/schemas/       - JSON validation schemas
+      .base/grooming/      - Weekly groom reports
+      .base/audits/        - Audit history
       .base/workspace.json - Workspace manifest
-      .base/operator.json  - Operator profile (guided setup via /base:scaffold)
+      .base/operator.json  - Operator profile (guided setup via /base:orientation)
       .mcp.json            - MCP server registration (merged)
 `);
   process.exit(0);
@@ -394,8 +397,14 @@ function installWorkspace() {
   // Create .base directories
   fs.mkdirSync(path.join(baseDir, 'data'), { recursive: true });
   fs.mkdirSync(path.join(baseDir, 'hooks'), { recursive: true });
+  fs.mkdirSync(path.join(baseDir, 'grooming'), { recursive: true });
+  fs.mkdirSync(path.join(baseDir, 'audits'), { recursive: true });
+  fs.mkdirSync(path.join(baseDir, 'schemas'), { recursive: true });
   console.log(`  ${green}+${reset} .base/data/`);
   console.log(`  ${green}+${reset} .base/hooks/`);
+  console.log(`  ${green}+${reset} .base/grooming/`);
+  console.log(`  ${green}+${reset} .base/audits/`);
+  console.log(`  ${green}+${reset} .base/schemas/`);
 
   // Initialize JSON data surfaces (don't overwrite existing)
   const dataSurfaces = {
@@ -404,7 +413,8 @@ function installWorkspace() {
     'projects.json': { projects: [], last_updated: null },
     'entities.json': { entities: [], last_updated: null },
     'state.json': { drift_score: 0, areas: {}, last_groom: null, last_updated: null },
-    'psmm.json': { sessions: {} }
+    'psmm.json': { sessions: {} },
+    'staging.json': { proposals: [] }
   };
   let surfaceCount = 0;
   for (const [filename, data] of Object.entries(dataSurfaces)) {
@@ -443,6 +453,17 @@ function installWorkspace() {
     }
   } else {
     console.log(`  ${dim}  .base/operator.json (existing profile preserved)${reset}`);
+  }
+
+  // Copy JSON schemas for data surface validation
+  const schemasSrc = path.join(src, 'schemas');
+  const schemasDest = path.join(baseDir, 'schemas');
+  if (fs.existsSync(schemasSrc)) {
+    const schemaFiles = fs.readdirSync(schemasSrc).filter(f => f.endsWith('.json'));
+    for (const file of schemaFiles) {
+      fs.copyFileSync(path.join(schemasSrc, file), path.join(schemasDest, file));
+    }
+    console.log(`  ${green}+${reset} .base/schemas/ (${schemaFiles.length} validation schemas)`);
   }
 
   // Copy base-mcp
