@@ -111,8 +111,75 @@ All hooks live in `.base/hooks/`. Session hooks are registered in `.claude/setti
 **On-demand hooks** (invoked by commands, not auto-registered):
 - apex-insights.py — workspace analytics (invoked by /apex:insights)
 
-**Python path detection (REQUIRED before registering any hooks):**
-Run `which python3` to get the user's absolute Python path (e.g. `/usr/bin/python3`, `/usr/local/bin/python3`, `/opt/homebrew/bin/python3`). Use this detected path in ALL hook registrations — never hardcode a specific python path. If `which python3` fails, warn the user and ask them to provide their python3 path.
+---
+
+### ENVIRONMENT DETECTION (REQUIRED — do this FIRST)
+
+Hooks are shell commands that Claude Code executes. The python path AND file paths must work in the context where Claude Code is running. Detect the environment before wiring anything.
+
+**Step 1: Identify the platform.**
+Run these commands and read the results:
+```bash
+uname -a          # Linux vs Darwin vs MINGW/MSYS
+cat /proc/version 2>/dev/null  # WSL detection (contains "Microsoft" or "WSL")
+echo $TERM_PROGRAM  # vscode = VS Code integrated terminal
+```
+
+**Step 2: Classify the environment.**
+
+| Environment | Detection | Python Command | File Paths |
+|---|---|---|---|
+| **Native Linux** | `uname` = Linux, no WSL in /proc/version | `which python3` → use result | Native paths work |
+| **Native macOS** | `uname` = Darwin | `which python3` → use result (often /opt/homebrew/bin/python3) | Native paths work |
+| **WSL Terminal** (Claude Code CLI in WSL) | Linux + "Microsoft" in /proc/version + NOT in VS Code | `which python3` → use result (typically /usr/bin/python3) | WSL paths work (/home/user/...) |
+| **VS Code Extension (WSL Remote)** | Linux + WSL + TERM_PROGRAM=vscode | `which python3` → use result | WSL paths work (VS Code server runs inside WSL) |
+| **VS Code Extension (Windows-native)** | platform: win32 in Claude Code, OR `uname` returns MINGW/MSYS | See troubleshooting below | Windows paths required |
+| **Native Windows** | No WSL, Windows paths | `where python` or `py -3` | Windows paths (C:\...) |
+
+**Step 3: Handle the tricky cases.**
+
+**VS Code Extension on Windows accessing WSL files (PROBLEMATIC):**
+This is the hardest case. The VS Code extension runs on the Windows side but can see WSL files. Hooks execute in a Windows context, so:
+- `/usr/bin/python3` does NOT exist
+- `/home/user/...` paths are NOT valid
+- The Windows Python stub (`WindowsApps/python3.exe`) can't access WSL paths
+
+**Solutions (present to user in order of preference):**
+
+1. **Use VS Code Remote - WSL extension** (RECOMMENDED):
+   - Install the "WSL" extension in VS Code (by Microsoft)
+   - Open the workspace with "Reopen in WSL" or `code --remote wsl+Ubuntu /path/to/workspace`
+   - This runs the VS Code server inside WSL — all hooks fire natively
+   - All WSL paths and python work correctly
+
+2. **Use Claude Code CLI in WSL terminal instead of VS Code extension:**
+   - Open a WSL terminal, `cd` to workspace, run `claude`
+   - All hooks fire natively in WSL context
+   - Use VS Code separately for editing if needed
+
+3. **Wrapper script approach** (for advanced users who need both contexts):
+   Create a wrapper at a Windows-accessible location that detects context and routes:
+   ```bash
+   #!/bin/bash
+   # Detect if running in WSL or Windows and route accordingly
+   if [ -f /proc/version ] && grep -qi microsoft /proc/version; then
+     # Running in WSL context — use WSL python directly
+     /usr/bin/python3 "$@"
+   else
+     # Running in Windows context — invoke via wsl
+     wsl /usr/bin/python3 "$@"
+   fi
+   ```
+   This is fragile and NOT recommended for most users.
+
+**IMPORTANT: Ask the user which environment they use Claude Code in before proceeding.**
+If they use multiple environments (e.g., CLI in WSL + VS Code extension), explain the constraints and recommend option 1 (VS Code Remote WSL).
+
+---
+
+### HOOK REGISTRATION
+
+After environment is classified and python path is determined:
 
 For each auto-fire hook:
 1. Check if `.base/hooks/{hook}` exists
@@ -127,13 +194,48 @@ Hook registration format in settings.json:
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "type": "command", "command": "{detected_python3_path} /absolute/path/.base/hooks/{hook}" }
+      { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/{hook}" }
     ]
   }
 }
 ```
 
+---
+
+### HOOK TROUBLESHOOTING
+
+If hooks aren't firing after setup, diagnose with these checks:
+
+**Symptom: "operation blocked by hook" or "No such file"**
+- Python path is wrong for the current environment
+- Fix: re-detect python path for the environment Claude Code is running in
+
+**Symptom: Zero hooks fire (no CARL, no pulse, no calendar, nothing)**
+- Likely a platform mismatch (Windows paths vs WSL paths)
+- Check: `echo $PATH | tr ':' '\n' | grep python` — does python3 resolve?
+- Check: Can Claude Code's shell access the hook file? Run `cat {hook_path}` to verify
+
+**Symptom: Hooks fire in terminal but not in VS Code (or vice versa)**
+- Different Claude Code instances run in different contexts
+- VS Code extension (Windows-native) ≠ Claude Code CLI (WSL)
+- Fix: Use VS Code Remote WSL extension so both contexts are WSL
+
+**Symptom: "python3: command not found"**
+- Python3 is not on PATH in the hook execution context
+- Fix: Use absolute path to python3 (detect with `which python3`)
+
+**Diagnostic command (run this to check hook health):**
+```bash
+# Test each hook manually
+for hook in .base/hooks/*.py; do
+  echo "--- Testing: $hook ---"
+  {detected_python3_path} "$hook" 2>&1 | head -3
+  echo "Exit code: $?"
+done
+```
+
 Report: "Hooks installed ({N} auto-fire hooks registered, 1 on-demand hook available)."
+Report environment: "{environment_type} detected — hooks configured for {python_path}"
 </step>
 
 <step name="operator_profile">
