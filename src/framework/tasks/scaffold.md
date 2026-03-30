@@ -198,18 +198,35 @@ For each auto-fire hook:
 4. If not registered: add the hook entry using detected python path + absolute path to `.base/hooks/{hook}`
 
 Hook registration format in settings.json:
+
+**CRITICAL: Each event type array contains objects with a `hooks` array inside — NOT flat command objects.** This is the Claude Code settings.json schema. Getting this wrong means hooks silently fail.
+
 ```json
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/{hook}" }
+      {
+        "hooks": [
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/active-hook.py" },
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/backlog-hook.py" },
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/base-pulse-check.py" },
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/psmm-injector.py" },
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/operator.py" }
+        ]
+      }
     ],
     "SessionStart": [
-      { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/satellite-detection.py" }
+      {
+        "hooks": [
+          { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/satellite-detection.py" }
+        ]
+      }
     ]
   }
 }
 ```
+
+**Merge strategy:** If `.claude/settings.json` already has a `hooks` section with existing entries (e.g., from CARL or other tools), APPEND BASE hooks into the existing `hooks` arrays inside the event type objects. Do NOT overwrite existing hooks. Read the file first, find the right array, add entries that aren't already present.
 
 ---
 
