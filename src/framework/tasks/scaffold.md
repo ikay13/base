@@ -110,7 +110,9 @@ All hooks live in `.base/hooks/`. Session hooks are registered in `.claude/setti
 - base-pulse-check.py — drift detection + groom reminders
 - psmm-injector.py — per-session meta memory injection
 - operator.py — operator identity context injection
-- satellite-detection.py — PAUL project auto-registration
+
+**SessionStart hooks** (fire once when Claude Code starts a session):
+- satellite-detection.py — PAUL project auto-registration and state sync
 
 **On-demand hooks** (invoked by commands, not auto-registered):
 - apex-insights.py — workspace analytics (invoked by /apex:insights)
@@ -190,7 +192,9 @@ For each auto-fire hook:
 2. If not: copy from `~/.claude/base-framework/hooks/{hook}` (global install source)
    - If `~/.claude/base-framework/hooks/{hook}` doesn't exist either, warn:
      "BASE framework not globally installed. Run `npx base-framework --global` first, then re-run scaffold."
-3. Check `.claude/settings.json` for hook registration in `UserPromptSubmit` array
+3. Check `.claude/settings.json` for hook registration:
+   - **UserPromptSubmit hooks** → register in `UserPromptSubmit` array
+   - **SessionStart hooks** (satellite-detection.py) → register in `SessionStart` array
 4. If not registered: add the hook entry using detected python path + absolute path to `.base/hooks/{hook}`
 
 Hook registration format in settings.json:
@@ -199,6 +203,9 @@ Hook registration format in settings.json:
   "hooks": {
     "UserPromptSubmit": [
       { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/{hook}" }
+    ],
+    "SessionStart": [
+      { "type": "command", "command": "{detected_python3_path} {absolute_path_to_workspace}/.base/hooks/satellite-detection.py" }
     ]
   }
 }
@@ -295,10 +302,57 @@ The MCP server package lives globally at `~/.claude/base-framework/packages/base
 3. If no: "Baseline set from filesystem timestamps. First groom due: {date}."
 </step>
 
+<step name="post_scaffold_cleanup">
+Quick review and cleanup. Catches artifacts from path detection bugs, stale files, or misaligned structure.
+
+**Run these checks in order:**
+
+1. **Bogus directories** — Scan workspace root for directories that shouldn't exist:
+   - Any directory starting with `C:` or containing Windows-style paths (path detection bug)
+   - Any directory named `undefined`, `null`, or `[object Object]`
+   - If found: delete them and report what was removed
+
+2. **Sunset files** — Check for files that no longer belong:
+   - `.base/data/active.json` → sunset, replaced by projects.json
+   - `.base/data/backlog.json` → sunset, replaced by projects.json
+   - `ACTIVE.md` or `BACKLOG.md` at workspace root → legacy, offer to remove
+   - If found: report and offer to remove (don't auto-delete without confirmation)
+
+3. **Path sanity** — Verify all registered hooks use correct paths for the current environment:
+   - Read `.claude/settings.json` hook entries
+   - Check each hook path exists on disk
+   - Check python path resolves (`which {python_path}`)
+   - If any path is invalid: flag it with the correct replacement
+
+4. **MCP sanity** — Verify MCP registration points to a real file:
+   - Read `.mcp.json`
+   - Check `.base/base-mcp/index.js` exists
+   - Check `node_modules/` exists in `.base/base-mcp/`
+   - If broken: fix it (copy from global, npm install, re-register)
+
+5. **Structure alignment** — Verify workspace matches CLAUDE.md's Where section:
+   - Read CLAUDE.md (if it exists) and extract the Where section
+   - Compare declared directories against what actually exists
+   - Flag any mismatches (declared but not created, or created but not declared)
+   - Don't auto-fix — just report for user awareness
+
+**Report:**
+```
+Post-scaffold cleanup:
+- Artifacts removed: {list or "none"}
+- Sunset files found: {list or "none"}
+- Hook paths: {all valid | N issues}
+- MCP: {healthy | issues}
+- Structure alignment: {aligned | N mismatches}
+```
+
+If everything is clean: "Workspace is clean. No artifacts, all paths valid, structure aligned."
+</step>
+
 </steps>
 
 <output>
-Fully configured BASE installation. Standard mode: data layer with JSON surfaces, hooks wired, operator profile setup, MCP registered. Full mode: adds CLAUDE.md audit and guided first groom.
+Fully configured BASE installation. Standard mode: data layer with JSON surfaces, hooks wired, operator profile setup, MCP registered, post-scaffold cleanup verified. Full mode: adds CLAUDE.md audit and guided first groom.
 </output>
 
 <acceptance-criteria>
@@ -309,8 +363,9 @@ Fully configured BASE installation. Standard mode: data layer with JSON surfaces
 - [ ] JSON data surfaces initialized (projects, entities, state, psmm, staging)
 - [ ] operator.json created and profile questionnaire offered
 - [ ] Satellite projects detected and registered
-- [ ] All auto-fire hooks installed and registered in settings.json
+- [ ] All auto-fire hooks installed and registered in settings.json (UserPromptSubmit + SessionStart)
 - [ ] BASE MCP server wired in .mcp.json
+- [ ] Post-scaffold cleanup passed (no artifacts, valid paths, structure aligned)
 - [ ] (Full mode) CLAUDE.md audit offered
 - [ ] (Full mode) First groom offered
 - [ ] Operator informed of next groom date
